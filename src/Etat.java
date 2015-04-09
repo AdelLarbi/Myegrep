@@ -12,8 +12,8 @@ import java.util.Set;
 public class Etat {
 
 	HashMap<Character, EnsEtat> transitions;
-	boolean init;
-	boolean term;
+	boolean init=false;
+	boolean term=false;
 	int id;
 
 	public Etat() {
@@ -98,12 +98,33 @@ public class Etat {
 		if (transitions.containsKey(c)) {
 			transitions.get(c).add(e);
 		} else {
-			List<Etat> ce = new ArrayList<Etat>();
+			Set<Etat> ce = new HashSet<>();
 			ce.add(e);
 			EnsEtat tmp = new EnsEtat(ce);
 			transitions.put(c, tmp);
 		}
 	}
+	
+	public  String toStringEtat() {
+//		String res = " \n Etat "+this.id+"\n";
+//		res+= "\n "+"is term  :"+this.term+"\n";
+//		res+= "\n "+"is init  :"+this.init+"\n"+"transitions :\n";
+//		
+		String res = "" ;
+		String tmp = "\n" ;
+		for(Character c : transitions.keySet()){
+			res+= "\n "+"char: "+c+" -> :\n";
+			for(Etat e: transitions.get(c).liste_etat){
+				tmp += "\t Etat "+e.id+"\n";
+				tmp += "\t "+"is term  :"+e.term+"\n";
+				tmp += "\t "+"is init  :"+e.init+"\n";
+				
+			}
+			res += tmp;
+		}
+		return res ;
+	}
+	
 }
 
 
