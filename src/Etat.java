@@ -1,13 +1,4 @@
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
+import java.util.*;
 
 public class Etat {
 
@@ -42,12 +33,12 @@ public class Etat {
 		return init;
 	}
 
+    public void setInit(boolean init) {
+        this.init = init;
+    }
+
 	public boolean isTerm() {
 		return term;
-	}
-
-	public void setInit(boolean init) {
-		this.init = init;
 	}
 
 	public void setTerm(boolean term) {
@@ -98,8 +89,8 @@ public class Etat {
 		if (transitions.containsKey(c)) {
 			transitions.get(c).add(e);
 		} else {
-			Set<Etat> ce = new HashSet<>();
-			ce.add(e);
+            Set<Etat> ce = new HashSet<Etat>();
+            ce.add(e);
 			EnsEtat tmp = new EnsEtat(ce);
 			transitions.put(c, tmp);
 		}
@@ -124,7 +115,11 @@ public class Etat {
 		}
 		return res ;
 	}
-	
+
+    public Set<Character> alphabet() {
+        return this.transitions.keySet();
+    }
+
 }
 
 

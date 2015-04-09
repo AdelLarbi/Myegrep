@@ -1,14 +1,12 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
 public class Automate extends EnsEtat {
 
 	private EnsEtat initiaux;
+    private EnsEtat finaux;
 
-	public Automate(Set<Etat> ee) {
+    public Automate(Set<Etat> ee) {
 		super(ee);
 		initiaux = new EnsEtat();
 	}
@@ -19,10 +17,10 @@ public class Automate extends EnsEtat {
 
 	public boolean ajouteEtatSeul(Etat e) {
 
-		for (Iterator<Etat> iterator = liste_etat.iterator(); iterator
-				.hasNext();) {
-			Etat etmp = (Etat) iterator.next();
-			if (etmp.equals(e)) {
+        for (Iterator<Etat> iterator = super.liste_etat.iterator(); iterator
+                .hasNext();) {
+            Etat etmp = iterator.next();
+            if (etmp.equals(e)) {
 				return true;
 			}
 		}
@@ -64,8 +62,6 @@ public class Automate extends EnsEtat {
 		}
 		res+=  "fin des Initiaux: " + "\n";
 
-		int i = 1;
-		
 		for (Etat e : super.liste_etat) {
 			res += " ETAT " + e.id+ " \n";
 			res += "\n " + e.toStringEtat();
