@@ -9,13 +9,18 @@ public class Main {
         e0.ajouteTransition('a', e0);
         e0.ajouteTransition('b', e0);
         e0.ajouteTransition('a', e1);
+        eepsi.ajouteTransition(' ', e3);
         e1.ajouteTransition('a', e2);
         e1.ajouteTransition('b', e2);
         e2.ajouteTransition('a', e3);
 
 
         Automate auto = new Automate();
-        auto.ajouteEtatRecursif(e0);
+        //auto.ajouteEtatRecursif(e0);
+        auto.ajouteEtatSeul(e0);
+        auto.ajouteEtatSeul(e1);
+        auto.ajouteEtatSeul(e2);
+        auto.ajouteEtatSeul(e3);
 
 		System.out.println(auto.toString());
 		System.out.println(auto.estDeterministe());

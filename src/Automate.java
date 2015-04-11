@@ -17,9 +17,12 @@ public class Automate extends EnsEtat {
 
 	public boolean ajouteEtatSeul(Etat e) {
 
-        if (super.liste_etat.contains(e))
+        if (super.liste_etat.contains(e)) {
+            System.out.println("l'etat" + e.id + " est deja présent");
             return false;
+        }
         else {
+            System.out.println("Ajout de " + e.id);
             super.liste_etat.add(e);
             if (e.isInit())
                 initiaux.add(e);

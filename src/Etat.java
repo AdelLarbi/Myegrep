@@ -23,27 +23,22 @@ public class Etat {
 		this.id = id;
 	}
 
-	public Etat(boolean estInit, boolean estTerm) {
-		this.init = estInit;
-		this.term = estTerm;
-		this.transitions = new HashMap<Character, EnsEtat>();
-	}
-
 	public boolean isInit() {
-		return init;
-	}
+        return this.init;
+    }
 
     public void setInit(boolean init) {
         this.init = init;
     }
 
 	public boolean isTerm() {
-		return term;
-	}
+        return this.term;
+    }
 
 	public void setTerm(boolean term) {
-		this.term = term;
-	}
+
+        this.term = term;
+    }
 
 	@Override
 	public int hashCode() {
