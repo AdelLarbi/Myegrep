@@ -4,7 +4,7 @@
 // Sun Apr 12 05:31:33 CEST 2015
 //----------------------------------------------------
 
-package regExp;
+package sample;
 
 
 /** CUP v0.11a beta 20060608 generated parser.

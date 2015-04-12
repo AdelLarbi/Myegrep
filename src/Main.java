@@ -1,8 +1,5 @@
 import java.io.FileReader;
 
-import regExp.Lexer;
-import regExp.Parser;
-
 public class Main {
 
 	public static void main(String[] args) {
@@ -10,8 +7,7 @@ public class Main {
         Etat e1 = new Etat(1);
         Etat e2 = new Etat(2);
         Etat eepsi = new Etat(3);
-        Etat e3 = new Etat(false, true, 4);
-        e0.ajouteTransition('a', e0);
+        Etat e3 = new Etat(false, true, 4);        e0.ajouteTransition('a', e0);
         e0.ajouteTransition('b', e0);
         e0.ajouteTransition('a', e1);
         e1.ajouteTransition('a', e2);
@@ -25,7 +21,7 @@ public class Main {
 		System.out.println(auto.estDeterministe());*/
 				
 		try {
-			Parser p = new Parser(new Lexer( new FileReader("text")));
+			sample.Parser p = new sample.Parser(new sample.Lexer( new FileReader("text")));
 			System.out.println("\nLe resultat est:");
 			Object result = p.parse().value;			
 		} catch (Exception e) {		
