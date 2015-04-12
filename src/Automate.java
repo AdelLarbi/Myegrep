@@ -1,11 +1,12 @@
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Stack;
 
 public class Automate extends EnsEtat {
 
 	private EnsEtat initiaux;
     private EnsEtat finaux;
-
+    
     public Automate() {
         super();
         initiaux = new EnsEtat();
