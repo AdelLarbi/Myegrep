@@ -1,0 +1,143 @@
+
+package regExp;
+
+
+/* Terminals (tokens returned by the scanner)._______________________________ */
+/* --------------------------------------------------------------------------
+ * Provided Terminals (http://pubs.opengroup.org/onlinepubs/9699919799/)
+ * -------------------------------------------------------------------------- */
+   terminal  COLL_ELEM_SINGLE, COLL_ELEM_MULTI, META_CHAR;
+   terminal  Open_equal;         /*   [=   */ 
+   terminal  Equal_close;        /*   =]   */
+   terminal  Open_dot;           /*   [.   */
+   terminal  Dot_close;          /*   .]   */
+   terminal  Open_colon;         /*   [:   */
+   terminal  Colon_close;        /*   :]   */
+   terminal  class_name; 
+   terminal  ORD_CHAR, QUOTED_CHAR, DUP_COUNT;
+/* --------------------------------------------------------------------------
+ * My Additional Terminals (characters not supported in Java Cup)
+ * -------------------------------------------------------------------------- */
+    terminal  OPEN_BRACKET;      /*   [   */
+    terminal  CLOSE_BRACKET;     /*   ]   */
+    terminal  CARET;             /*   ^   */
+    terminal  MINUS;             /*   -   */
+    terminal  VERTICAL_BAR;      /*   |   */
+    terminal  DOLLAR;            /*   $   */
+    terminal  OPEN_PARENTHESE;   /*   (   */
+    terminal  CLOSE_PARENTHESE;  /*   )   */
+    terminal  DOT;               /*   .   */
+    terminal  ASTERISK;          /*   *   */
+    terminal  PLUS;              /*   +   */
+    terminal  QUESTION_MARK;     /*   ?   */
+    terminal  OPEN_BRACE;        /*   {   */
+    terminal  CLOSE_BRACE;       /*   }   */
+    terminal  COMMA;             /*   ,   */    
+/* End Terminals._____________________________________________________________*/
+
+
+
+/* Non Terminals.____________________________________________________________ */
+non terminal  bracket_expression;
+non terminal  matching_list, nonmatching_list, bracket_list, follow_list;
+non terminal  expression_term, single_expression, range_expression;
+non terminal  start_range, end_range;
+non terminal  collating_symbol, equivalence_class, character_class;
+non terminal  extended_reg_exp;
+non terminal  ERE_branch, ERE_expression;
+non terminal  one_char_or_coll_elem_ERE, ERE_dupl_symbol;
+/* End Non Terminals.________________________________________________________ */
+
+
+
+/* Start.____________________________________________________________________ */
+start with  extended_reg_exp;
+/* End Start.________________________________________________________________ */
+
+
+/* Precedences.______________________________________________________________ */ 
+   //precedence left  COLL_ELEM_SINGLE, COLL_ELEM_MULTI, META_CHAR;
+   //precedence left  Open_equal, Equal_close, Open_dot;          
+   //precedence left  Dot_close, Open_colon, Colon_close;   
+   //precedence left  class_name; 
+   //precedence left  ORD_CHAR, QUOTED_CHAR, DUP_COUNT;   
+   //precedence left  OPEN_BRACKET, CLOSE_BRACKET, CARET;
+   //precedence left MINUS;
+   //precedence left  VERTICAL_BAR; 
+   //precedence left  DOLLAR;  
+   //precedence left  OPEN_PARENTHESE, CLOSE_PARENTHESE;
+   //precedence left  DOT, ASTERISK, PLUS, QUESTION_MARK;
+   //precedence left  OPEN_BRACE, CLOSE_BRACE, COMMA;
+/* End Precedences.__________________________________________________________ */
+
+
+
+/* The Grammar.______________________________________________________________ */
+/* --------------------------------------------------------------------------
+ * Bracket Expression
+ * -------------------------------------------------------------------------- */
+bracket_expression ::=  OPEN_BRACKET matching_list CLOSE_BRACKET
+                     |  OPEN_BRACKET nonmatching_list CLOSE_BRACKET
+                     ;
+matching_list      ::=  bracket_list
+                     ;
+nonmatching_list   ::=  CARET bracket_list
+                     ;
+bracket_list       ::=  follow_list
+                     |  follow_list MINUS
+                     ;
+follow_list        ::=  expression_term
+                     |  follow_list expression_term
+                     ;
+expression_term    ::=  single_expression
+                     |  range_expression
+                     ;
+single_expression  ::=  end_range
+                     |  character_class
+                     |  equivalence_class
+                     ;
+range_expression   ::=  start_range end_range
+                     |  start_range MINUS
+                     ;
+start_range        ::=  end_range MINUS
+                     ;
+end_range          ::=  COLL_ELEM_SINGLE
+                     |  collating_symbol
+                     ;
+collating_symbol   ::=  Open_dot COLL_ELEM_SINGLE Dot_close
+                     |  Open_dot COLL_ELEM_MULTI Dot_close
+                     |  Open_dot META_CHAR Dot_close
+                     ;
+equivalence_class  ::=  Open_equal COLL_ELEM_SINGLE Equal_close
+                     |  Open_equal COLL_ELEM_MULTI Equal_close
+                     ;
+character_class    ::=  Open_colon class_name Colon_close
+                     ;
+/* --------------------------------------------------------------------------
+ * Extended Regular Expression
+ * -------------------------------------------------------------------------- */
+extended_reg_exp   ::=  ERE_branch
+                     |  extended_reg_exp VERTICAL_BAR ERE_branch
+                     ;
+ERE_branch         ::=  ERE_expression
+                     |  ERE_branch ERE_expression
+                     ;
+ERE_expression     ::=  one_char_or_coll_elem_ERE
+                     |  CARET
+                     |  DOLLAR
+                     |  OPEN_PARENTHESE extended_reg_exp CLOSE_PARENTHESE
+                     |  ERE_expression ERE_dupl_symbol
+                     ;
+one_char_or_coll_elem_ERE ::=  ORD_CHAR
+                     |  QUOTED_CHAR
+                     |  DOT
+                     |  bracket_expression
+                     ;
+ERE_dupl_symbol    ::=  ASTERISK
+                     |  PLUS
+                     |  QUESTION_MARK
+                     |  OPEN_BRACE DUP_COUNT CLOSE_BRACE
+                     |  OPEN_BRACE DUP_COUNT COMMA CLOSE_BRACE
+                     |  OPEN_BRACE DUP_COUNT COMMA DUP_COUNT CLOSE_BRACE
+                     ;
+/* End The Grammar.__________________________________________________________ */

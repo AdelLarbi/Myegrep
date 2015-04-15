@@ -1,10 +1,12 @@
+import java.util.HashMap;
 import java.util.Set;
+import java.util.Stack;
 
 public class Automate extends EnsEtat {
 
 	private EnsEtat initiaux;
     private EnsEtat finaux;
-
+    
     public Automate() {
         super();
         initiaux = new EnsEtat();
@@ -76,8 +78,45 @@ public class Automate extends EnsEtat {
 		return res;
 	}
 
-    public void determinise() {
-
-    }
-
+	Automate minimise(Automate automateNonMinimal) {		 		 		
+		return determinise(inverse(determinise(inverse(automateNonMinimal))));
+	}
+	
+	Automate inverse(Automate automateTmp) {
+		
+		Etat etatTmp = null;
+		initiaux.clear();
+		
+		for (Etat etat : this.liste_etat) {			
+			// inverser les etats 
+			if (etat.isInit()) {				
+				etat.setInit(false);
+				etat.setTerm(true);				
+			} else { // est terminale
+				etat.setInit(true);
+				etat.setTerm(false);
+				initiaux.add(etat);				
+			}			
+			
+			// inverser les transitions
+			HashMap<Character, EnsEtat> tmpTransitions = etat.transitions;
+			for (Character succ: tmpTransitions.keySet()) {
+				if (etat.isInit()) {
+					etatTmp = new Etat(true, false);
+				} else {
+					etatTmp = new Etat(false, true);
+				}
+			    etatTmp.ajouteTransition(succ, etat);
+			    automateTmp.add(etatTmp);
+			}
+		}
+		
+		// l'automate transposé 
+		return automateTmp;
+	}
+	
+	Automate determinise(Automate automateTmp) {		
+		// TODO
+		return automateTmp;
+	}
 }

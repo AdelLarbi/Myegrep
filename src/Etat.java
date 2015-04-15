@@ -16,6 +16,11 @@ public class Etat {
 		this.id = id;
 	}
 
+    public Etat(boolean init,boolean term){
+        this.transitions = new HashMap<Character, EnsEtat>();
+        this.term = term;
+        this.init = init;
+    }
 	public Etat(boolean init, boolean term, int id) {
 		this.transitions = new HashMap<Character, EnsEtat>();
 		this.init = init;
