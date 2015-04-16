@@ -38,37 +38,21 @@ package regExp;
 
 
 /* Non Terminals.____________________________________________________________ */
-non terminal  bracket_expression;
-non terminal  matching_list, nonmatching_list, bracket_list, follow_list;
-non terminal  expression_term, single_expression, range_expression;
-non terminal  start_range, end_range;
-non terminal  collating_symbol, equivalence_class, character_class;
-non terminal  extended_reg_exp;
-non terminal  ERE_branch, ERE_expression;
-non terminal  one_char_or_coll_elem_ERE, ERE_dupl_symbol;
+	non terminal  bracket_expression;
+	non terminal  matching_list, nonmatching_list, bracket_list, follow_list;
+	non terminal  expression_term, single_expression, range_expression;
+	non terminal  start_range, end_range;
+	non terminal  collating_symbol, equivalence_class, character_class;
+	non terminal  extended_reg_exp;
+	non terminal  ERE_branch, ERE_expression;
+	non terminal  one_char_or_coll_elem_ERE, ERE_dupl_symbol;	
 /* End Non Terminals.________________________________________________________ */
 
 
 
 /* Start.____________________________________________________________________ */
-start with  extended_reg_exp;
+	start with  extended_reg_exp;
 /* End Start.________________________________________________________________ */
-
-
-/* Precedences.______________________________________________________________ */ 
-   //precedence left  COLL_ELEM_SINGLE, COLL_ELEM_MULTI, META_CHAR;
-   //precedence left  Open_equal, Equal_close, Open_dot;          
-   //precedence left  Dot_close, Open_colon, Colon_close;   
-   //precedence left  class_name; 
-   //precedence left  ORD_CHAR, QUOTED_CHAR, DUP_COUNT;   
-   //precedence left  OPEN_BRACKET, CLOSE_BRACKET, CARET;
-   //precedence left MINUS;
-   //precedence left  VERTICAL_BAR; 
-   //precedence left  DOLLAR;  
-   //precedence left  OPEN_PARENTHESE, CLOSE_PARENTHESE;
-   //precedence left  DOT, ASTERISK, PLUS, QUESTION_MARK;
-   //precedence left  OPEN_BRACE, CLOSE_BRACE, COMMA;
-/* End Precedences.__________________________________________________________ */
 
 
 
@@ -84,7 +68,7 @@ matching_list      ::=  bracket_list
 nonmatching_list   ::=  CARET bracket_list
                      ;
 bracket_list       ::=  follow_list
-                     |  follow_list MINUS
+                     /*|  follow_list MINUS*/
                      ;
 follow_list        ::=  expression_term
                      |  follow_list expression_term
