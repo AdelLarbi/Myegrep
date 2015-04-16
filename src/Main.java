@@ -1,30 +1,44 @@
-import java.io.FileReader;
-
 public class Main {
 
 	public static void main(String[] args) {
-        /*Etat e0 = new Etat(true, false, 0);
+        Etat e0 = new Etat(true, false, 0);
         Etat e1 = new Etat(1);
         Etat e2 = new Etat(2);
-        Etat eepsi = new Etat(3);
-        Etat e3 = new Etat(false, true, 4);        e0.ajouteTransition('a', e0);
-        e0.ajouteTransition('b', e0);
+        Etat e3 = new Etat(3);
+        Etat e4 = new Etat(4);
+        Etat e5 = new Etat(false, true, 5);
+        //  Etat e6 = new Etat(false,true,6);
+
+        System.out.println("AJOUT DES ETATS");
         e0.ajouteTransition('a', e1);
-        eepsi.ajouteTransition(' ', e3);
-        e1.ajouteTransition('a', e2);
-        e1.ajouteTransition('b', e2);
-        e2.ajouteTransition('a', e3);		
-		
+        e1.ajouteTransition('b', e3);
+        e1.ajouteTransition(' ', e2);
+
+        e2.ajouteTransition('a', e2);
+        e2.ajouteTransition('c', e5);
+        e3.ajouteTransition('c', e4);
+        e3.ajouteTransition('a', e5);
+        e4.ajouteTransition('b', e4);
+        e4.ajouteTransition('a', e5);
+
+
         Automate auto = new Automate();
-        //auto.ajouteEtatRecursif(e0);
+        System.out.println("AJOUT DES ETATS A L'AUTOMATE");
         auto.ajouteEtatSeul(e0);
         auto.ajouteEtatSeul(e1);
         auto.ajouteEtatSeul(e2);
         auto.ajouteEtatSeul(e3);
+        auto.ajouteEtatSeul(e4);
+        auto.ajouteEtatSeul(e5);
 
-		System.out.println(auto.toString());
-		System.out.println(auto.estDeterministe());*/
-
+        System.out.println("AFFICHAGE DE L'AUTOMATE NON DETERMINISTE");
+        System.out.println(auto.toString());
+        System.out.println(auto.estDeterministe());
+        System.out.println("ON ENLEVE LES EPSILON TRANSISTION");
+        auto = auto.remove_epsilon_transition(auto);
+        System.out.println("AFFICHAGE DE L'AUTOMATE SANS LES TRANSITIONS");
+        System.out.println(auto.toString());
+        /*
         try {
             sample.Parser p = new sample.Parser(new sample.Lexer(new FileReader("text")));
             System.out.println("\nLe resultat est:");
@@ -33,6 +47,7 @@ public class Main {
             System.out.println("\nSyntax Error");
             e.printStackTrace();
         }
+        */
 
     }
 }

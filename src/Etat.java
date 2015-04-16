@@ -59,7 +59,23 @@ public class Etat {
 			return (id == other.id);
 		}
 	}
-	
+
+    public Set<Etat> getStateFromEpsilonTransition() {
+        Set<Etat> res = new HashSet<Etat>();
+        EnsEtat ens_episolon = null;
+        for (Character key : this.transitions.keySet()) {
+            if (key.equals(' ')) {
+                ens_episolon = this.transitions.get(key);
+                for (Etat e : ens_episolon.liste_etat) {
+                    res.add(e);
+                }
+            }
+        }
+        return res;
+    }
+
+
+
 	EnsEtat succ(char c) {
 		return transitions.get(c);
 	}
@@ -119,6 +135,7 @@ public class Etat {
     public Set<Character> alphabet() {
         return this.transitions.keySet();
     }
+
 
 }
 
