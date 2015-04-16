@@ -1,11 +1,10 @@
 import java.util.HashMap;
 import java.util.Set;
-import java.util.Stack;
 
 public class Automate extends EnsEtat {
 
-	private EnsEtat initiaux;
-    private EnsEtat finaux;
+    private final EnsEtat initiaux;
+    private final EnsEtat finaux;
     
     public Automate() {
         super();
@@ -19,9 +18,12 @@ public class Automate extends EnsEtat {
 
 	public boolean ajouteEtatSeul(Etat e) {
 
-        if (super.liste_etat.contains(e))
+        if (super.liste_etat.contains(e)) {
+            System.out.println("l'etat" + e.id + " est deja présent");
             return false;
+        }
         else {
+            System.out.println("Ajout de " + e.id);
             super.liste_etat.add(e);
             if (e.isInit())
                 initiaux.add(e);
@@ -111,9 +113,56 @@ public class Automate extends EnsEtat {
 		// l'automate transposé 
 		return automateTmp;
 	}
-	
+
+
+    Automate remove_epsilon_transition(Automate a) {
+        Automate res = a;
+        Set<Etat> transitory = null;
+        // ajout des transitions des etats
+        for (Etat e : res.liste_etat) {
+            transitory = e.getStateFromEpsilonTransition();
+            if (!transitory.isEmpty()) {
+                for (Etat etat : transitory) {
+                    e.transitions.putAll(etat.transitions);
+                }
+            }
+            // on retire les transition vide
+            e.transitions.remove(' ');
+        }
+
+
+        return res;
+    }
+
 	Automate determinise(Automate automateTmp) {		
 		// TODO
-		return automateTmp;
-	}
+        Automate automateres = automateTmp;
+
+
+        return automateres;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

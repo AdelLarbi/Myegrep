@@ -51,7 +51,7 @@ public class EnsEtat extends HashSet<Etat> {
 		return false ;
 	}
 
-    public Etat getEtatInit() {
+    Etat getEtatInit() {
         Etat res = null;
         for (Etat etat : this.liste_etat) {
             if (etat.isInit()) {
@@ -83,7 +83,7 @@ public class EnsEtat extends HashSet<Etat> {
         return etat;
     }
 
-    public EnsEtat getEtatFinaux() {
+    EnsEtat getEtatFinaux() {
         Set<Etat> etatfinaux = new HashSet<Etat>();
         Etat etat = null;
         for (Iterator<Etat> it = liste_etat.iterator(); it.hasNext(); ) {

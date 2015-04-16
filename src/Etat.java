@@ -16,6 +16,11 @@ public class Etat {
 		this.id = id;
 	}
 
+    public Etat(boolean init,boolean term){
+        this.transitions = new HashMap<Character, EnsEtat>();
+        this.term = term;
+        this.init = init;
+    }
 	public Etat(boolean init, boolean term, int id) {
 		this.transitions = new HashMap<Character, EnsEtat>();
 		this.init = init;
@@ -23,27 +28,22 @@ public class Etat {
 		this.id = id;
 	}
 
-	public Etat(boolean estInit, boolean estTerm) {
-		this.init = estInit;
-		this.term = estTerm;
-		this.transitions = new HashMap<Character, EnsEtat>();
-	}
-
 	public boolean isInit() {
-		return init;
-	}
+        return this.init;
+    }
 
     public void setInit(boolean init) {
         this.init = init;
     }
 
 	public boolean isTerm() {
-		return term;
-	}
+        return this.term;
+    }
 
 	public void setTerm(boolean term) {
-		this.term = term;
-	}
+
+        this.term = term;
+    }
 
 	@Override
 	public int hashCode() {
@@ -59,7 +59,23 @@ public class Etat {
 			return (id == other.id);
 		}
 	}
-	
+
+    public Set<Etat> getStateFromEpsilonTransition() {
+        Set<Etat> res = new HashSet<Etat>();
+        EnsEtat ens_episolon = null;
+        for (Character key : this.transitions.keySet()) {
+            if (key.equals(' ')) {
+                ens_episolon = this.transitions.get(key);
+                for (Etat e : ens_episolon.liste_etat) {
+                    res.add(e);
+                }
+            }
+        }
+        return res;
+    }
+
+
+
 	EnsEtat succ(char c) {
 		return transitions.get(c);
 	}
@@ -119,6 +135,7 @@ public class Etat {
     public Set<Character> alphabet() {
         return this.transitions.keySet();
     }
+
 
 }
 
