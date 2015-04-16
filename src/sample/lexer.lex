@@ -16,7 +16,7 @@ import static sample.ParserSym.*;
 %eofval}
 
 %{
-  StringBuffer string = new StringBuffer();
+  /*StringBuffer string = new StringBuffer();*/
 
   private Symbol symbol(int type) {
     return new Symbol(type, yyline, yycolumn);

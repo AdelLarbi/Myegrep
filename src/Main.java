@@ -1,3 +1,5 @@
+import java.io.FileReader;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -38,16 +40,14 @@ public class Main {
         auto = auto.remove_epsilon_transition(auto);
         System.out.println("AFFICHAGE DE L'AUTOMATE SANS LES TRANSITIONS");
         System.out.println(auto.toString());
-        /*
-        try {
+        
+        /*try {
             sample.Parser p = new sample.Parser(new sample.Lexer(new FileReader("text")));
             System.out.println("\nLe resultat est:");
             Object result = p.parse().value;
         } catch (Exception e) {
             System.out.println("\nSyntax Error");
             e.printStackTrace();
-        }
-        */
-
+        }*/        
     }
 }
