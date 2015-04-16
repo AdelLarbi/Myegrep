@@ -62,7 +62,7 @@ start with  extended_reg_exp;
    //precedence left  class_name; 
    //precedence left  ORD_CHAR, QUOTED_CHAR, DUP_COUNT;   
    //precedence left  OPEN_BRACKET, CLOSE_BRACKET, CARET;
-   //precedence left MINUS;
+   //precedence left  MINUS;
    //precedence left  VERTICAL_BAR; 
    //precedence left  DOLLAR;  
    //precedence left  OPEN_PARENTHESE, CLOSE_PARENTHESE;

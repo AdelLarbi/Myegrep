@@ -1,6 +1,8 @@
 public class Main {
 
-	public static void main(String[] args) {
+    public static final boolean INFO = true;
+
+    public static void main(String[] args) {
         Etat e0 = new Etat(true, false, 0);
         Etat e1 = new Etat(1);
         Etat e2 = new Etat(2);
