@@ -14,11 +14,12 @@ public class BufferReader {
 		this.lignes = new ArrayList<Integer>();
 	}
 	
-	public void getLignes() {
-		if (lignes.size() == 0) {
-			System.out.println("Le mot " + + " n'existe pas.");
-		} else {
-			
+	public void getLignes(String mot) {
+		if (lignes.size() != 0) {
+			System.out.println("Le mot " + mot + " se trouve dans les lignes:");
+			System.out.println(lignes.toString());
+		} else {					
+			System.out.println("Le mot " + mot + " n'existe pas.");
 		}
 	}
 	
@@ -35,7 +36,7 @@ public class BufferReader {
 		}
 	}
 	
-	public void trouver(String chemin, String mot) {
+	public void trouver(String mot, String chemin) {
 		int numLigneCourante = 0;		
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(chemin))) {
@@ -44,7 +45,7 @@ public class BufferReader {
 			while ((ligneCourante = br.readLine()) != null) {				
 				numLigneCourante++; 
 				if (ligneCourante.toLowerCase().contains(mot.toLowerCase())) {
-					lignes.add(numLigneCourante);
+					lignes.add(numLigneCourante);					
 				}			
 			}
  

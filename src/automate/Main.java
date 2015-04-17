@@ -55,6 +55,11 @@ public class Main {
             e.printStackTrace();
         }*/
     	
-    	new BufferReader().print("textw");
+    	BufferReader bufferReader = new BufferReader();
+    	String mot = "debian";
+    	String chemin = "text";
+    	
+    	bufferReader.trouver(mot, chemin);    	
+    	bufferReader.getLignes(mot);
     }
 }
