@@ -1,3 +1,4 @@
+package automate;
 import java.util.*;
 
 public class Automate extends EnsEtat {
@@ -457,10 +458,6 @@ public class Automate extends EnsEtat {
         }
         return true;
     }
-
-
-
-
 }
 
 

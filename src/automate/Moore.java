@@ -1,3 +1,4 @@
+package automate;
 import java.util.HashSet;
 
 /**
@@ -5,7 +6,6 @@ import java.util.HashSet;
  */
 public class Moore {
     static private char[] alphabetIt;
-
 
     static private EtatMoore[] colonnes;
 

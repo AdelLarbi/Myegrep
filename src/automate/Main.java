@@ -1,11 +1,14 @@
+package automate;
 import java.io.FileReader;
+
+import filesReader.BufferReader;
 
 public class Main {
 
     public static final boolean INFO = true;
 
     public static void main(String[] args) {
-        Etat e0 = new Etat(true, false, 0);
+        /*Etat e0 = new Etat(true, false, 0);
         Etat e1 = new Etat(1);
         Etat e2 = new Etat(2);
         Etat e3 = new Etat(3);
@@ -41,15 +44,17 @@ public class Main {
         System.out.println("ON ENLEVE LES EPSILON TRANSISTION");
         auto = auto.remove_epsilon_transition(auto);
         System.out.println("AFFICHAGE DE L'AUTOMATE SANS LES TRANSITIONS");
-        System.out.println(auto.toString());
+        System.out.println(auto.toString());*/
         
         /*try {
-            sample.Parser p = new sample.Parser(new sample.Lexer(new FileReader("text")));
+        	regExp.Parser p = new regExp.Parser(new regExp.Lexer(new FileReader("text")));
             System.out.println("\nLe resultat est:");
             Object result = p.parse().value;
         } catch (Exception e) {
             System.out.println("\nSyntax Error");
             e.printStackTrace();
-        }*/        
+        }*/
+    	
+    	new BufferReader().print("textw");
     }
 }

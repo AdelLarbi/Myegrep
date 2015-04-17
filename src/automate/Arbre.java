@@ -1,3 +1,4 @@
+package automate;
 import java.util.*;
 
 /**

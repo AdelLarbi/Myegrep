@@ -1,3 +1,4 @@
+package automate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -24,6 +25,7 @@ public class Etat {
         this.term = term;
         this.init = init;
     }
+    
 	public Etat(boolean init, boolean term, int id) {
 		this.transitions = new HashMap<Character, EnsEtat>();
 		this.init = init;
@@ -74,14 +76,15 @@ public class Etat {
         for (Character key : this.transitions.keySet()) {
             if (key.equals(' ')) {
                 ens_episolon = this.transitions.get(key);
-                for (Etat e : ens_episolon.liste_etat) {
+                /* FIXME
+                for (Etat e : ens_episolon.listEtats) {
                     res.add(e);
                 }
+                */
             }
         }
         return res;
     }
-
 
     public EnsEtat succ(char c) {
         if (transitions.containsKey(c))
@@ -119,7 +122,6 @@ public class Etat {
         }
         return new EnsEtat();
     }
-
 
     void ajouteTransition(char c, Etat e) {
         // si la transition existe
@@ -174,8 +176,6 @@ public class Etat {
         return res;
     }
 
-
-
     public Set<Character> alphabet() {
         return this.transitions.keySet();
     }
@@ -199,18 +199,4 @@ public class Etat {
         res += " }";
         return res;
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-

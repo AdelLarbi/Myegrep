@@ -1,3 +1,4 @@
+package automate;
 /**
  * Created by nizar on 16/04/15.
  */

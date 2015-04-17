@@ -1,3 +1,4 @@
+package automate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class EnsEtat extends HashSet<Etat> {
         }
 		return ensres ;
 	}
+
 	public boolean contientTerminal() {
         for (Etat e : this) {
             if(e.isTerm())
@@ -42,7 +44,6 @@ public class EnsEtat extends HashSet<Etat> {
 		}
 		return false ;
 	}
-
 
     public boolean accepte(String mot, int i) {
         if (i == mot.length())
@@ -155,7 +156,4 @@ public class EnsEtat extends HashSet<Etat> {
     public void setMapUnion(HashMap<Etat[], Etat> e) {
         this.mapUnion = e;
     }
-
-
-
 }
