@@ -55,7 +55,7 @@ public class Main {
     	System.out.println("# TESTE SI UNE REGEXP");
     	String lienDeFichier = "text";
     	// TODO parser lexer job
-    	System.err.println("(TODO parser lexer job)");
+    	System.out.println("(TODO parser lexer job)");
     	/*try {
     		regExp.Parser p = new regExp.Parser(new regExp.Lexer(new FileReader(lienDeFichier)));        	
         	Object result = p.parse().value;
@@ -65,6 +65,8 @@ public class Main {
     	}*/
     	
     	System.out.println("# CONSTRUCTION DE L'AUTOMATE");
+    	// FIXME construcion ne donne pas un bon automate
+    	System.out.println("(FIXME construcion ne donne pas un bon automate)");
 		Arbre arbre = Arbre.lirePostfixe(lienDeFichier);
 		Automate automate = new Automate(arbre);
 		
@@ -82,7 +84,7 @@ public class Main {
 		System.out.println("# TEST SI UN MOT EST ACCEPTÉ");
 		String mot = "debian";		
 		// FIXME fonction accepte ne marche pas
-		System.err.println("(FIXME fonction accepte ne marche pas)");
+		System.out.println("(FIXME fonction accepte ne marche pas)");
 		// automateMin.accepte(mot);		
 		        
 		System.out.println("# FAIS LA RECHERCHE");
