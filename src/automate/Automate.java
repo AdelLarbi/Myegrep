@@ -1,4 +1,5 @@
 package automate;
+
 import java.util.*;
 
 public class Automate extends EnsEtat {

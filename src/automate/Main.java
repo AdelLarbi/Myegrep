@@ -89,9 +89,9 @@ public class Main {
 		        
 		System.out.println("# FAIS LA RECHERCHE");
 		String chemin = "DossierTest/";
-    	BufferReader bufferReader = new BufferReader();    	    	    	    	      	
-    	bufferReader.explorerDossier(mot, chemin);
-    	
-    	System.out.println("# FIN.");
+    	BufferReader bufferReader = new BufferReader();
+        bufferReader.explorerDossier(mot, chemin, true);
+
+        System.out.println("# FIN.");
     }
 }
