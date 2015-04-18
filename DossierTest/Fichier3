@@ -1,0 +1,7 @@
+It's all free?
+
+You may be wondering: why would people spend hours of their own time to write software, carefully package it, and then give it all away? The answers are as varied as the people who contribute. Some people like to help others. Many write programs to learn more about computers. More and more people are looking for ways to avoid the inflated price of software. A growing crowd contribute as a thank you for all the great free software they've received from others. Many in academia create free software to help get the results of their research into wider use. Businesses help maintain free software so they can have a say in how it develops -- there's no quicker way to get a new feature than to implement it yourself! Of course, a lot of us just find it great fun.
+
+Debian is so committed to free software that we thought it would be useful if that commitment was formalized in a written document. Thus, our Social Contract was born.
+
+Although Debian believes in free software, there are cases where people want or need to put non-free software on their machine. Whenever possible Debian will support this. There are even a growing number of packages whose sole job is to install non-free software into a Debian system. 

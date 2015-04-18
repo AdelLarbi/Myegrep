@@ -57,9 +57,8 @@ public class Main {
     	
     	BufferReader bufferReader = new BufferReader();
     	String mot = "debian";
-    	String chemin = "text";
+    	String chemin = "DossierTest/";    	    	   
     	
-    	bufferReader.trouver(mot, chemin);    	
-    	bufferReader.getLignes(mot);
+    	bufferReader.explorerDossier(mot, chemin);
     }
 }
