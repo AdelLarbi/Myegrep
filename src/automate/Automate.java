@@ -165,7 +165,6 @@ public class Automate extends EnsEtat {
 
     }
 
-
     @Override
     public String toString() {
         return super.toString();
@@ -180,6 +179,8 @@ public class Automate extends EnsEtat {
 		return determinise(inverse(determinise(inverse(automateNonMinimal))));
 	}
 	  */
+    
+    /*
     Automate inverse(Automate automateTmp) {
 
         Etat etatTmp = null;
@@ -211,7 +212,7 @@ public class Automate extends EnsEtat {
 
         // l'automate transposé
         return automateTmp;
-    }
+    }*/
 
 
     Automate remove_epsilon_transition(Automate a) {

@@ -1,7 +1,7 @@
 package automate;
-import java.io.FileReader;
 
 import filesReader.BufferReader;
+
 
 public class Main {
 
@@ -44,21 +44,52 @@ public class Main {
         System.out.println("ON ENLEVE LES EPSILON TRANSISTION");
         auto = auto.remove_epsilon_transition(auto);
         System.out.println("AFFICHAGE DE L'AUTOMATE SANS LES TRANSITIONS");
-        System.out.println(auto.toString());*/
-        
-        /*try {
-        	regExp.Parser p = new regExp.Parser(new regExp.Lexer(new FileReader("text")));
-            System.out.println("\nLe resultat est:");
-            Object result = p.parse().value;
-        } catch (Exception e) {
-            System.out.println("\nSyntax Error");
-            e.printStackTrace();
-        }*/
+        System.out.println(auto.toString());
+        System.out.println("MINIMISATION");
+        Automate autoMin = auto.minimisation();
+        System.out.println("AFFICHAGE DE L'AUTOMATE MIN");
+        System.out.println(autoMin.toString()); */       
     	
-    	BufferReader bufferReader = new BufferReader();
-    	String mot = "debian";
-    	String chemin = "DossierTest/";    	    	   
+    	System.out.println("# DÉBUT:");
+    	    	
+    	System.out.println("# TESTE SI UNE REGEXP");
+    	String lienDeFichier = "text";
+    	// TODO parser lexer job
+    	System.err.println("(TODO parser lexer job)");
+    	/*try {
+    		regExp.Parser p = new regExp.Parser(new regExp.Lexer(new FileReader(lienDeFichier)));        	
+        	Object result = p.parse().value;
+    	} catch (Exception e) {
+        	System.out.println("\nSyntax Error");
+        	e.printStackTrace();
+    	}*/
     	
+    	System.out.println("# CONSTRUCTION DE L'AUTOMATE");
+		Arbre arbre = Arbre.lirePostfixe(lienDeFichier);
+		Automate automate = new Automate(arbre);
+		
+		System.out.println("# AFFICHAGE DE L'AUTOMATE NON DETERMINISTE");
+		System.out.println(automate);
+		
+		System.out.println("# TESTE SI L'AUTOMATE EST DETERMINISTE");
+		System.out.println(automate.estDeterministe());		
+		
+		System.out.println("# MINIMISATION MOORE");
+		Automate automateMin = null;
+		automateMin = automate.minimisation();
+		System.out.println(automateMin);
+		
+		System.out.println("# TEST SI UN MOT EST ACCEPTÉ");
+		String mot = "debian";		
+		// FIXME fonction accepte ne marche pas
+		System.err.println("(FIXME fonction accepte ne marche pas)");
+		// automateMin.accepte(mot);		
+		        
+		System.out.println("# FAIS LA RECHERCHE");
+		String chemin = "DossierTest/";
+    	BufferReader bufferReader = new BufferReader();    	    	    	    	      	
     	bufferReader.explorerDossier(mot, chemin);
+    	
+    	System.out.println("# FIN.");
     }
 }

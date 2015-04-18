@@ -46,7 +46,7 @@ public class BufferReader {
 				}
 			}
 			
-			br.close();
+			br.close();			
 			
 			if (lignes.size() == 0) {
 				isTrouver = false;
