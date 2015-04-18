@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public class BufferReader {
 	
 	private boolean isTrouver = false;
-	
-	public void explorerDossier(String mot, String chemin) {
-		File dossier = new File(chemin);
+
+    public void explorerDossier(String mot, String chemin, boolean rec) {
+        File dossier = new File(chemin);
 		File[] listeFichiers = dossier.listFiles();
 
     	for (int i = 0; i < listeFichiers.length; i++) {
@@ -23,10 +23,10 @@ public class BufferReader {
     				System.out.println("Je ne trouve pas le mot : " + mot + "." );
     			}
     			System.out.print("\n-----------------------------------------");
-    			System.out.println("---------------------------------------\n");    
-    		} else if (listeFichiers[i].isDirectory()) {    			
-    			this.explorerDossier(mot, chemin + listeFichiers[i].getName() + "/");
-    		}
+    			System.out.println("---------------------------------------\n");
+            } else if (listeFichiers[i].isDirectory() && rec) {
+                this.explorerDossier(mot, chemin + listeFichiers[i].getName() + "/", rec);
+            }
     	}	
 	}
 	

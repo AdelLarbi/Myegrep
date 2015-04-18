@@ -11,7 +11,6 @@ public class EnsEtat extends HashSet<Etat> {
 
 
 	public EnsEtat() {
-		// TODO Auto-generated constructor stub
         mapDeterminise = null;
         mapUnion = null;
     }
@@ -49,7 +48,7 @@ public class EnsEtat extends HashSet<Etat> {
         if (i == mot.length())
             return this.contientTerminal();
         if (this.succ(mot.charAt(i)) != null) {
-            return this.succ(mot.charAt(i)).accepte(mot, i++);
+            return this.succ(mot.charAt(i)).accepte(mot, ++i);
         }
         return false;
     }
