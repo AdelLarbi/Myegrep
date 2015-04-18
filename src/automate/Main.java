@@ -37,7 +37,7 @@ public class Main {
         auto.ajouteEtatSeul(e3);
         auto.ajouteEtatSeul(e4);
         auto.ajouteEtatSeul(e5);
-
+	
         System.out.println("AFFICHAGE DE L'AUTOMATE NON DETERMINISTE");
         System.out.println(auto.toString());
         System.out.println(auto.estDeterministe());
@@ -50,12 +50,12 @@ public class Main {
         System.out.println("AFFICHAGE DE L'AUTOMATE MIN");
         System.out.println(autoMin.toString()); */       
     	
-    	System.out.println("# DÉBUT:");
+    	/*System.out.println("# DÉBUT:");
     	    	
     	System.out.println("# TESTE SI UNE REGEXP");
     	String lienDeFichier = "text";
     	// TODO parser lexer job
-    	System.out.println("(TODO parser lexer job)");
+    	System.out.println("(TODO parser lexer job)");*/
     	/*try {
     		regExp.Parser p = new regExp.Parser(new regExp.Lexer(new FileReader(lienDeFichier)));        	
         	Object result = p.parse().value;
@@ -63,7 +63,7 @@ public class Main {
         	System.out.println("\nSyntax Error");
         	e.printStackTrace();
     	}*/
-    	
+    	/*
     	System.out.println("# CONSTRUCTION DE L'AUTOMATE");
     	// FIXME construcion ne donne pas un bon automate
     	System.out.println("(FIXME construcion ne donne pas un bon automate)");
@@ -85,13 +85,13 @@ public class Main {
 		String mot = "debian";		
 		// FIXME fonction accepte ne marche pas
 		System.out.println("(FIXME fonction accepte ne marche pas)");
-		// automateMin.accepte(mot);		
+		System.out.println(automateMin.accepte(mot));		
 		        
 		System.out.println("# FAIS LA RECHERCHE");
 		String chemin = "DossierTest/";
     	BufferReader bufferReader = new BufferReader();
         bufferReader.explorerDossier(mot, chemin, true);
 
-        System.out.println("# FIN.");
+        System.out.println("# FIN.");*/
     }
 }
