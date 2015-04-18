@@ -50,56 +50,56 @@ start with  extended_reg_exp;
 /* --------------------------------------------------------------------------
  * Extended Regular Expression
  * -------------------------------------------------------------------------- */
-extended_reg_exp   ::=  ERE_branch
-                     |  extended_reg_exp VERTICAL_BAR ERE_branch
+extended_reg_exp   ::=  ERE_branch                                              {: System.out.println( "ERE_branch" ); :}
+                     |  extended_reg_exp VERTICAL_BAR ERE_branch                {: System.out.println( "extended_reg_exp|ERE_branch" ); :}
                      ;
-ERE_branch         ::=  ERE_expression
-                     |  ERE_branch ERE_expression
+ERE_branch         ::=  ERE_expression                                          {: System.out.println( "ERE_expression" ); :}
+                     |  ERE_branch ERE_expression                               {: System.out.println( "ERE_branch ERE_expression" ); :}
                      ;
-ERE_expression     ::=  one_char_or_coll_elem_ERE
-                     |  CARET
-                     |  DOLLAR
-                     |  OPEN_PARENTHESE extended_reg_exp CLOSE_PARENTHESE
-                     |  ERE_expression ERE_dupl_symbol
+ERE_expression     ::=  one_char_or_coll_elem_ERE                               {: System.out.println( "one_char_or_coll_elem_ERE" ); :}
+                     |  CARET													{: System.out.println( "^" ); :}
+                     |  DOLLAR													{: System.out.println( "$" ); :}
+                     |  OPEN_PARENTHESE extended_reg_exp CLOSE_PARENTHESE       {: System.out.println( "(extended_reg_exp)" ); :}
+                     |  ERE_expression ERE_dupl_symbol                          {: System.out.println( "ERE_expression ERE_dupl_symbol" ); :}
                      ;
-one_char_or_coll_elem_ERE ::=  ORD_CHAR
-                     |  QUOTED_CHAR
-                     |  DOT
-                     |  bracket_expression
+one_char_or_coll_elem_ERE ::=  ORD_CHAR:oc                                      {: System.out.println( oc ); :}
+                     |  QUOTED_CHAR:oc                                          {: System.out.println( oc ); :}
+                     |  DOT                                                     {: System.out.println( "." ); :}
+                     |  bracket_expression                                      {: System.out.println( "bracket_expression" ); :}
                      ;
-ERE_dupl_symbol    ::=  ASTERISK {: System.out.println("Étoile"); :}
-                     |  PLUS {: System.out.println("Plus"); :}
-                     |  QUESTION_MARK
-                     |  OPEN_BRACE ORD_CHAR CLOSE_BRACE
-                     |  OPEN_BRACE ORD_CHAR COMMA CLOSE_BRACE
-                     |  OPEN_BRACE ORD_CHAR COMMA ORD_CHAR CLOSE_BRACE
+ERE_dupl_symbol    ::=  ASTERISK                                                {: System.out.println( "*" ); :}
+                     |  PLUS                                                    {: System.out.println( "+" ); :}
+                     |  QUESTION_MARK                                           {: System.out.println( "?" ); :}
+                     |  OPEN_BRACE ORD_CHAR:oc CLOSE_BRACE                      {: System.out.println( "{" + oc + "}" ); :}  	    
+                     |  OPEN_BRACE ORD_CHAR:oc COMMA CLOSE_BRACE                {: System.out.println( "{" + oc + ",}" ); :}
+                     |  OPEN_BRACE ORD_CHAR:oc1 COMMA ORD_CHAR:oc2 CLOSE_BRACE  {: System.out.println( "{" + oc1 + "," + oc2 + "}" ); :}
                      ;                     
 /* --------------------------------------------------------------------------
  * Bracket Expression
  * -------------------------------------------------------------------------- */
-bracket_expression ::=  OPEN_BRACKET matching_list CLOSE_BRACKET
-                     |  OPEN_BRACKET nonmatching_list CLOSE_BRACKET
+bracket_expression ::=  OPEN_BRACKET matching_list CLOSE_BRACKET                {: System.out.println( "[matching_list]" ); :}
+                     |  OPEN_BRACKET nonmatching_list CLOSE_BRACKET             {: System.out.println( "[nonmatching_list]" ); :}
                      ;
-matching_list      ::=  bracket_list
+matching_list      ::=  bracket_list                                            {: System.out.println( "bracket_list" ); :}
                      ;
-nonmatching_list   ::=  CARET bracket_list
+nonmatching_list   ::=  CARET bracket_list                                      {: System.out.println( "^bracket_list" ); :}
                      ;
-bracket_list       ::=  follow_list
+bracket_list       ::=  follow_list                                             {: System.out.println( "follow_list" ); :}
                      /*|  follow_list MINUS*/
                      ;
-follow_list        ::=  expression_term
-                     |  follow_list expression_term
+follow_list        ::=  expression_term                                         {: System.out.println( "expression_term" ); :} 
+                     |  follow_list expression_term                             {: System.out.println( "follow_list expression_term" ); :} 
                      ;
-expression_term    ::=  single_expression
-                     |  range_expression
+expression_term    ::=  single_expression                                       {: System.out.println( "single_expression" ); :}
+                     |  range_expression                                        {: System.out.println( "range_expression" ); :}
                      ;
-single_expression  ::=  end_range    					                 
+single_expression  ::=  end_range    					                        {: System.out.println( "end_range" ); :}
                      ;
-range_expression   ::=  start_range end_range
-                     |  start_range MINUS
+range_expression   ::=  start_range end_range                                   {: System.out.println( "start_range end_range" ); :}
+                     |  start_range MINUS                                       {: System.out.println( "start_range-" ); :}
                      ;
-start_range        ::=  end_range MINUS
+start_range        ::=  end_range MINUS                                         {: System.out.println( "end_range-" ); :}
                      ;
-end_range          ::=  ORD_CHAR
+end_range          ::=  ORD_CHAR:oc                                             {: System.out.println( oc ); :}
                      ;
 /* End The Grammar.__________________________________________________________ */
