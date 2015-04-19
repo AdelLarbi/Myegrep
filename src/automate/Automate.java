@@ -537,7 +537,17 @@ public class Automate extends EnsEtat {
 	}
 
 	public static Automate point() {
-		// TODO automate accedant a l'etat final
+		// TODO automate accedant à l'état final pour toute les lettres
+		return null;
+	}
+
+	public static Automate creerListeMatching(String listeCaractere) {
+		// TODO automate accedant à l'état final pour les lettres de listeCaractere
+		return null;
+	}
+
+	public static Automate creerListeNonMatching(String listeCaractere) {
+		// TODO automate accedant à l'état final pour toute les lettres sauf listeCaractere 
 		return null;
 	}
 	

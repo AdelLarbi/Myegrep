@@ -171,57 +171,83 @@ ERE_dupl_symbol    ::=  ASTERISK                                                
 /* --------------------------------------------------------------------------
  * Bracket Expression
  * -------------------------------------------------------------------------- */
-bracket_expression ::=  OPEN_BRACKET matching_list CLOSE_BRACKET                {: 
+bracket_expression ::=  OPEN_BRACKET matching_list:ml CLOSE_BRACKET             {: 
 																					System.out.println("---Debug cas[20]---"); 
+																					String listeCaractere = (String)ml;
+                                                    								RESULT = Automate.creerListeMatching(listeCaractere);
 																				:}
-                     |  OPEN_BRACKET nonmatching_list CLOSE_BRACKET             {: 
-                     																System.out.println("---Debug cas[21]---"); 
+                     |  OPEN_BRACKET nonmatching_list:nl CLOSE_BRACKET          {: 
+                     																System.out.println("---Debug cas[21]---");
+                     																String listeCaractere = (String)nl;
+                                                    								RESULT = Automate.creerListeNonMatching(listeCaractere); 
                      															:}
                      ;
-matching_list      ::=  bracket_list                                            {: 
+matching_list      ::=  bracket_list:bl                                         {: 
 																					System.out.println("---Debug cas[22]---"); 
+																					RESULT = bl;
 																				:}
                      ;
-nonmatching_list   ::=  CARET bracket_list                                      {: 
-																					System.out.println("---Debug cas[23]---"); 
+nonmatching_list   ::=  CARET bracket_list:bl                                   {: 
+																					System.out.println("---Debug cas[23]---");
+																					RESULT = bl; 
 																				:}
                      ;
-bracket_list       ::=  follow_list                                             {: 	
-																					System.out.println("---Debug cas[24]---"); 
+bracket_list       ::=  follow_list:fl                                          {: 	
+																					System.out.println("---Debug cas[24]---");
+																					RESULT = fl; 
 																				:}
                      /*|  follow_list MINUS*/
                      ;
-follow_list        ::=  expression_term                                         {: 
-																					System.out.println("---Debug cas[25]---"); 
+follow_list        ::=  expression_term:et                                      {: 
+																					System.out.println("---Debug cas[25]---");
+																					RESULT = et; 
 																				:} 
-                     |  follow_list expression_term                             {: 
-                     																System.out.println("---Debug cas[26]---"); 
+                     |  follow_list:fl expression_term:et                       {: 
+                     																System.out.println("---Debug cas[26]---");
+                     																RESULT = (String)fl + (String)et; 
                      															:} 
                      ;
-expression_term    ::=  single_expression                                       {: 
-																					System.out.println("---Debug cas[27]---"); 
+expression_term    ::=  single_expression:se                                    {: 
+																					System.out.println("---Debug cas[27]---");
+																					RESULT = se; 
 																				:}
-                     |  range_expression                                        {: 
-                     																System.out.println("---Debug cas[28]---"); 
+                     |  range_expression:re                                     {: 
+                     																System.out.println("---Debug cas[28]---");
+                     																RESULT = re; 
                      															:}
                      ;
-single_expression  ::=  end_range    					                        {:
-																					System.out.println("---Debug cas[29]---"); 
+single_expression  ::=  end_range:er 					                        {:
+																					System.out.println("---Debug cas[29]---");
+																					RESULT = er; 
 																				:}
                      ;
-range_expression   ::=  start_range end_range                                   {: 
-																					System.out.println("---Debug cas[30]---"); 
+range_expression   ::=  start_range:sr end_range:er                             {: 
+																					System.out.println("---Debug cas[30]---");
+																					char debut = ((String)sr).charAt(0);
+                                                									String resultat = "";
+                                                									for (int i = debut; i <= ((String)er).charAt(0); i++) {
+                                                										resultat += (char)i;
+                                                									}
+                                                									RESULT = resultat; 
 																				:}
-                     |  start_range MINUS                                       {: 
-                     																System.out.println("---Debug cas[31]---"); 
+                     |  start_range:sr MINUS                                    {: 
+                     																System.out.println("---Debug cas[31]---");
+                     																char debut = ((String)sr).charAt(0);
+												                                    String resultat = "";
+												                                    for (int i = debut; i < ((char)126); i++) {
+												                                    	resultat += (char)i;
+												                                    }
+												                                    RESULT = resultat; 
                      															:}
                      ;
-start_range        ::=  end_range MINUS                                         {: 
-																					System.out.println("---Debug cas[32]---"); 
+start_range        ::=  end_range:er MINUS                                      {: 
+																					System.out.println("---Debug cas[32]---");
+																					RESULT = er;  
 																				:}
                      ;
 end_range          ::=  ORD_CHAR:oc                                             {: 
-																					System.out.println("---Debug cas[33]---"); 
+																					System.out.println("---Debug cas[33]---");
+																					RESULT = oc; 
 																				:}
                      ;
 /* End The Grammar.__________________________________________________________ */
