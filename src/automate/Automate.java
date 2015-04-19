@@ -17,6 +17,12 @@ public class Automate extends EnsEtat {
         this.ajouteEtatRecursif(etat);
     }
 
+    /* public Automate(Arbre arbre) {
+         this();
+         this.fromArbre(arbre);
+     }
+
+     */
     public EnsEtat getInitiaux() {
         return this.initiaux;
     }
@@ -374,7 +380,40 @@ public class Automate extends EnsEtat {
         else return Moore.minimisation(this.determinise());
     }
 
-        public boolean estEgale(Automate test) {
+    /*  private void fromArbre(Arbre arbre) {
+          initiaux.clear();
+          this.clear();
+
+          int idCompteur = 0;
+          HashMap<Feuille, Etat> map = new HashMap<Feuille, Etat>();
+          Map<Feuille, Set<Feuille>> succ = arbre.succ();
+          Stack<Feuille> pile = new Stack<Feuille>();
+
+          Etat etatInit = new Etat(true, arbre.contientMotVide, idCompteur++);
+          Feuille feuilleInit = new Feuille(Arbre.MOT_VIDE);
+          this.ajouteEtatSeul(etatInit);
+          succ.put(feuilleInit, arbre.premiers);
+          map.put(feuilleInit, etatInit);
+          pile.push(feuilleInit);
+
+          while (!pile.isEmpty()) {
+              Feuille feuilleCourante = pile.pop();
+              if (succ.get(feuilleCourante) != null) {
+                  for (Feuille feuilleSucc : succ.get(feuilleCourante)) {
+                      Etat etatCourant = map.get(feuilleSucc);
+                      if (etatCourant == null) {
+                          etatCourant = new Etat(false, arbre.derniers.contains(feuilleSucc), idCompteur++);
+                          this.ajouteEtatSeul(etatCourant);
+                          map.put(feuilleSucc, etatCourant);
+                          pile.push(feuilleSucc);
+                      }
+                      map.get(feuilleCourante).ajouteTransition(feuilleSucc.symbole, etatCourant);
+                  }
+              }
+          }
+      }
+    */
+    public boolean estEgale(Automate test) {
         if (this.size() != test.size()) {
             System.out.println("Ne sont pas égaux : tailles differentes");
             return false;
@@ -422,119 +461,53 @@ public class Automate extends EnsEtat {
         return true;
     }
 
-    /*
-     * TODO
-     * ------------------------------------------------------------------------     
-     */     
-        
-	public static Automate union(Automate automateTmp1,
-			Automate automateTmp2) {
-		// TODO automate reconnaissant l'union de deux automates
-		return null;
-	}
 
-	public static Automate concatination(Automate automateTmp1,
-			Automate automateTmp2) {
-		// TODO automate reconnaissant la concatination de deux automates
-		return null;
-	}
+    public Automate concatMeWith(Automate ere2) {
+        Automate membregauche = this.copy();
+        Automate membredroit = ere2.copy();
 
-	public static Automate debutRegExp() {
-		// TODO  automate reconnaissant le debut de ligne
-		return null;
-	}	
-	
-	public static Automate finRegExp() {
-		// TODO automate reconnaissant la fin de ligne
-		return null;
-	}
-	
-	public static enum SymboleDuplication {
-		Etoile,
-		Plus,    		
-		Interrogation,
-		Min,
-		Exact,
-		Min_Max,
-	}
-		
-	// borne minimal pour la duplication	
-	private static int min;
-	//borne maximal pour la duplication
-	private static int max;
-	
-	public static void setMin(int min) {
-		Automate.min = min;
-	}
-	
-	public static void setMax(int max) {
-		Automate.max = max;
-	}
-	
-	public static Automate dupliquer(Automate automateTmp, 
-			SymboleDuplication symbole) {
-		
-		switch (symbole) {
-			case Etoile: {
-				return etoile(automateTmp);
-			}
-			case Plus: {
-				return plus(automateTmp);
-			}
-			case Interrogation: {
-				return interrogation(automateTmp);
-			}
-			case Exact: {
-				return repeter(automateTmp, min);
-			}
-			case Min: {
-				return repeterMin(automateTmp, min);
-			}
-			case Min_Max: {
-				return repeterMinMax(automateTmp, min, max);
-			}
-			default: {
-				System.out.println("Erreur!");
-				return null;
-			}
-		}		
-	}
-	
-	private static Automate etoile(Automate automateTmp) {
-		// TODO automate reconnaisant la répitition {0, ++}
-		return null;
-	}
-	
-	private static Automate plus(Automate automateTmp) {
-		// TODO automate reconnaisant la répitition {1, ++}
-		return null;
-	}
-	
-	private static Automate interrogation(Automate automateTmp) {
-		// TODO automate reconnaisant un langage {0, 1} 
-		return null;
-	}
-	
-	private static Automate repeter(Automate automateTmp, int nbrDuplication) {
-		// TODO automate resultant de la duplication de l'automate 
-		return null;
-	}
-	
-	private static Automate repeterMin(Automate automateTmp, int nbrDuplication) {
-		// TODO automate resultant de la duplication de l'automate 
-		return null;
-	}
-	
-	private static Automate repeterMinMax(Automate automateTmp, 
-			int minDuplication, int maxDuplication) {
-		// TODO automate resultant de la duplication de l'automate 
-		return null;
-	}
-	
-	/*
-     * Fin TODO
-     * ------------------------------------------------------------------------     
-     */	
+        if (!membredroit.estDeterministe())
+            membredroit = membredroit.determinise();
+        if (!membregauche.estDeterministe())
+            membredroit = membregauche.determinise();
+
+        for (Etat etat : membregauche) {
+            if (etat.isTerm()) {
+                etat.setTerm(false);
+                for (Etat initiaux : membredroit.initiaux) {
+                    initiaux.setInit(false);
+                    etat.ajouteTransition(' ', initiaux);
+                }
+            }
+        }
+        return membregauche;
+    }
+
+    public Automate etoile() {
+        Automate copie = this.copy();
+        if (!copie.estDeterministe())
+            copie = copie.determinise();
+        Etat epsilon = new Etat(true, false, 0);
+
+        // on lie epsilon aux init puis les finaux au epsilon
+        for (Etat etat : copie) {
+            if (etat.isInit()) {
+                etat.setInit(false);
+                epsilon.ajouteTransition(' ', etat);
+            } else if (etat.isTerm()) {
+                etat.setTerm(false);
+                etat.ajouteTransition(' ', epsilon);
+            }
+        }
+        return new Automate(epsilon).determinise();
+    }
+
+    public Automate plus() {
+        return this.concatMeWith(this.etoile());
+    }
+    //TODO le moins et  le point d'interogation
+
+
 }
 
 

@@ -1,5 +1,7 @@
 package filesReader;
 
+import automate.Automate;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -11,40 +13,52 @@ public class BufferReader {
 	
 	private boolean isTrouver = false;
 
-    public void explorerDossier(String mot, String chemin, boolean rec) {
+    public void explorerDossier(Automate automate, String mot, String chemin, boolean rec) {
         File dossier = new File(chemin);
 		File[] listeFichiers = dossier.listFiles();
 
     	for (int i = 0; i < listeFichiers.length; i++) {
     		if (listeFichiers[i].isFile()) {
     			System.out.println("Dans : " + chemin + listeFichiers[i].getName());
-    			this.trouver(mot, chemin + listeFichiers[i].getName());
-    			if (!isTrouver) {
-    				System.out.println("Je ne trouve pas le mot : " + mot + "." );
+                this.trouver(automate, mot, chemin + listeFichiers[i].getName());
+            /*	if (!isTrouver) {
+                    System.out.println("Je ne trouve pas le mot : " + mot + "." );
     			}
-    			System.out.print("\n-----------------------------------------");
+    		*/
+                System.out.print("\n-----------------------------------------");
     			System.out.println("---------------------------------------\n");
             } else if (listeFichiers[i].isDirectory() && rec) {
-                this.explorerDossier(mot, chemin + listeFichiers[i].getName() + "/", rec);
+                this.explorerDossier(automate, mot, chemin + listeFichiers[i].getName() + "/", rec);
             }
     	}	
 	}
-	
-	private void trouver(String mot, String chemin) {
-		int numLigneCourante = 0;				
-		ArrayList<Integer> lignes = new ArrayList<Integer>();
+
+    private void trouver(Automate automate, String mot, String chemin) {
+        int numLigneCourante = 0;
+        ArrayList<Integer> lignes = new ArrayList<Integer>();
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(chemin))) {
 			String ligneCourante;
  
 			while ((ligneCourante = br.readLine()) != null) {				
 				numLigneCourante++; 
-				if (ligneCourante.toLowerCase().contains(mot.toLowerCase())) {					
+                /*
+                    if (ligneCourante.toLowerCase().contains(mot.toLowerCase())) {
 					System.out.print("ligne [" + numLigneCourante + "] ");																												
 					this.afficherLigne(mot.toLowerCase(), ligneCourante.toLowerCase());										
 					lignes.add(numLigneCourante);						
 				}
-			}
+				*/
+
+                String[] parts = ligneCourante.split(" ");
+                for (String momo : parts) {
+                    //  System.out.println(momo);
+                    if (automate.accepte(momo)) {
+                        System.out.println("Le mot : " + momo + " match l'automate");
+                        this.afficherLigne(momo.toLowerCase(), ligneCourante.toLowerCase());
+                    }
+                }
+            }
 			
 			br.close();			
 			

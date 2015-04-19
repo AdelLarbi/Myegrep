@@ -107,10 +107,6 @@ public class Etat {
 		if (transitions.containsKey(c)) {
             transitions.get(c).add(e);
         } else {
-            //Set<Etat> ce = new HashSet<Etat>();
-            //ce.add(e);
-
-            //EnsEtat tmp = new EnsEtat(ce);
             EnsEtat tmp = new EnsEtat();
             tmp.add(e);
             transitions.put(c, tmp);
