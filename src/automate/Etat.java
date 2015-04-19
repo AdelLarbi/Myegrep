@@ -102,7 +102,7 @@ public class Etat {
         return new EnsEtat();
     }
 
-    void ajouteTransition(char c, Etat e) {
+    public void ajouteTransition(char c, Etat e) {
         // si la transition existe
 		if (transitions.containsKey(c)) {
             transitions.get(c).add(e);

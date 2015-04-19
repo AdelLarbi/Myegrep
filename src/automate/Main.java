@@ -1,7 +1,7 @@
 package automate;
 
 import java.io.FileReader;
-
+import regExp.*;
 
 public class Main {
 
@@ -48,27 +48,33 @@ public class Main {
         System.out.println("MINIMISATION");
         Automate autoMin = auto.minimisation();
         System.out.println("AFFICHAGE DE L'AUTOMATE MIN");
-        System.out.println(autoMin.toString()); */       
+        System.out.println(autoMin.toString());        
     	
     	System.out.println("# DÉBUT:");
-    	    	
+    	Automate aaa = new Automate();
+    	aaa.union(auto);
+    	
+    	System.err.println(aaa);*/
     	//System.out.println("# TESTE SI UNE REGEXP");
     	String lienDeFichier = "text";
     	// TODO parser lexer job
     	//System.out.println("(TODO parser lexer job)");
     	try {
-    		regExp.Parser p = new regExp.Parser(new regExp.Lexer(new FileReader(lienDeFichier)));        	
-        	Object result = p.parse().value;
+//    		regExp.Parser p = new regExp.Parser(new regExp.Lexer(new FileReader(lienDeFichier)));
+        	//Object result = p.parse();
+    		
+    		Parser p = new Parser().getParser(lienDeFichier);
+    		Automate result = p.getAutomate();
+    		//System.out.println(result);
+        	
     	} catch (Exception e) {
-        	System.out.println("\nSyntax Error");
-        	e.printStackTrace();
+        	System.out.println("\nErreur de syntaxe");
+        	e.printStackTrace();        	
     	}
     	/*
     	System.out.println("# CONSTRUCTION DE L'AUTOMATE");
     	// FIXME construcion ne donne pas un bon automate
-    	System.out.println("(FIXME construcion ne donne pas un bon automate)");
-		Arbre arbre = Arbre.lirePostfixe(lienDeFichier);
-		Automate automate = new Automate(arbre);
+    	System.out.println("(FIXME construcion ne donne pas un bon automate)");		
 		
 		System.out.println("# AFFICHAGE DE L'AUTOMATE NON DETERMINISTE");
 		System.out.println(automate);

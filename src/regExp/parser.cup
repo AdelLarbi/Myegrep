@@ -1,6 +1,37 @@
 
 package regExp;
 
+import automate.*;
+import java_cup.runtime.*;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.FileReader;
+
+parser code 
+{:
+	public static Automate automateTmp = null;
+	static final String lienDeFichier = "text";
+	
+	public Parser getParser(String pPath) throws Exception {
+		InputStream is = null;
+		is = new FileInputStream(pPath);
+		return new Parser(new Lexer(is));
+	}
+	
+	public Automate getAutomate() throws Exception {
+		if (automateTmp == null) {
+			this.parse();
+		}				
+			             
+		return automateTmp;
+	}
+	
+	/*public static void main(String[] args) throws Exception {
+		System.out.println("Debut");
+		new Parser(new Lexer(new FileReader(lienDeFichier))).parse();
+		System.out.println("Fin");		
+    }*/	
+:}
 
 /* Terminals (tokens returned by the scanner)._______________________________ */
 /* --------------------------------------------------------------------------
@@ -50,56 +81,146 @@ start with  extended_reg_exp;
 /* --------------------------------------------------------------------------
  * Extended Regular Expression
  * -------------------------------------------------------------------------- */
-extended_reg_exp   ::=  ERE_branch                                              {: System.out.println( "ERE_branch" ); :}
-                     |  extended_reg_exp VERTICAL_BAR ERE_branch                {: System.out.println( "extended_reg_exp|ERE_branch" ); :}
+extended_reg_exp   ::=  ERE_branch:eb                                           {: 
+																					System.out.println("---Debug cas[1]---");
+																				    RESULT = (Automate)eb;															    
+																				:}
+                     |  extended_reg_exp:ere VERTICAL_BAR ERE_branch:eb         {: 
+                     															    System.out.println("---Debug cas[2]---");                     															   
+                     															   
+                     															    Automate automateTmp1 = (Automate)ere; 
+                     															    //System.out.println("automateTmp1\n" + automateTmp1);
+                     															   
+                     															    Automate automateTmp2 = (Automate)eb;
+                     															    //System.out.println("automateTmp2\n" + automateTmp2);
+                     															   
+                     															    automateTmp1.union(automateTmp2);                     															                        															
+                     															    RESULT = automateTmp1;
+                     															    Parser.automateTmp = (Automate)automateTmp1;
+                     															:}
                      ;
-ERE_branch         ::=  ERE_expression                                          {: System.out.println( "ERE_expression" ); :}
-                     |  ERE_branch ERE_expression                               {: System.out.println( "ERE_branch ERE_expression" ); :}
+ERE_branch         ::=  ERE_expression:ee                                       {: 
+																				    System.out.println("---Debug cas[3]---"); 
+																				    RESULT = (Automate)ee; 
+																				    System.out.println( "RES1:---- " + RESULT); 
+																				:}
+                     |  ERE_branch ERE_expression                               {: 
+                     															    System.out.println("---Debug cas[4]---"); 
+                     															:}
                      ;
-ERE_expression     ::=  one_char_or_coll_elem_ERE                               {: System.out.println( "one_char_or_coll_elem_ERE" ); :}
-                     |  CARET													{: System.out.println( "^" ); :}
-                     |  DOLLAR													{: System.out.println( "$" ); :}
-                     |  OPEN_PARENTHESE extended_reg_exp CLOSE_PARENTHESE       {: System.out.println( "(extended_reg_exp)" ); :}
-                     |  ERE_expression ERE_dupl_symbol                          {: System.out.println( "ERE_expression ERE_dupl_symbol" ); :}
+ERE_expression     ::=  one_char_or_coll_elem_ERE:e                             {: 
+																			        System.out.println("---Debug cas[5]---"); 
+																			        RESULT = (Automate)e; 
+																			        System.out.println( "RES2:---- " + RESULT); 
+																			    :}
+                     |  CARET													{: 
+                     																System.out.println("---Debug cas[6]---");
+                     															:}
+                     |  DOLLAR													{:  
+                     																System.out.println("---Debug cas[7]---");
+                     															:}
+                     |  OPEN_PARENTHESE extended_reg_exp CLOSE_PARENTHESE       {: 
+                     																System.out.println("---Debug cas[8]---"); 
+                     															:}
+                     |  ERE_expression ERE_dupl_symbol                          {: 	
+                     																System.out.println("---Debug cas[9]---"); 
+                     															:}
                      ;
-one_char_or_coll_elem_ERE ::=  ORD_CHAR:oc                                      {: System.out.println( oc ); :}
-                     |  QUOTED_CHAR:oc                                          {: System.out.println( oc ); :}
-                     |  DOT                                                     {: System.out.println( "." ); :}
-                     |  bracket_expression                                      {: System.out.println( "bracket_expression" ); :}
+one_char_or_coll_elem_ERE ::=  ORD_CHAR:oc                                      {: 
+																					System.out.println("---Debug cas[10]---"); 
+																					Etat e0 = new Etat(true, false, 0);																			        
+																			        Etat e1 = new Etat(false, true, 1);																			        
+																		        	char[] monChar = ((String) oc).toCharArray();																		        	        																			       
+																			        e0.ajouteTransition(monChar[0], e1);																			        																		
+																			        Automate auto = new Automate();        
+																			        auto.ajouteEtatSeul(e0);
+																			        auto.ajouteEtatSeul(e1);
+																			        RESULT = auto;
+																			        //Parser.automateTmp = (Automate)RESULT;																			        
+																				:}
+                     |  QUOTED_CHAR:oc                                          {: 
+                     																System.out.println("---Debug cas[11]---");
+                     															:}
+                     |  DOT                                                     {: 
+                     																System.out.println("---Debug cas[12]---");
+                     															:}
+                     |  bracket_expression                                      {: 
+                     																System.out.println("---Debug cas[13]---"); 
+                     															:}
                      ;
-ERE_dupl_symbol    ::=  ASTERISK                                                {: System.out.println( "*" ); :}
-                     |  PLUS                                                    {: System.out.println( "+" ); :}
-                     |  QUESTION_MARK                                           {: System.out.println( "?" ); :}
-                     |  OPEN_BRACE ORD_CHAR:oc CLOSE_BRACE                      {: System.out.println( "{" + oc + "}" ); :}  	    
-                     |  OPEN_BRACE ORD_CHAR:oc COMMA CLOSE_BRACE                {: System.out.println( "{" + oc + ",}" ); :}
-                     |  OPEN_BRACE ORD_CHAR:oc1 COMMA ORD_CHAR:oc2 CLOSE_BRACE  {: System.out.println( "{" + oc1 + "," + oc2 + "}" ); :}
+ERE_dupl_symbol    ::=  ASTERISK                                                {: 
+																					System.out.println("---Debug cas[14]---");
+																				:}
+                     |  PLUS                                                    {: 
+                     																System.out.println("---Debug cas[15]---");
+                     															:}
+                     |  QUESTION_MARK                                           {: 
+                     																System.out.println("---Debug cas[16]---");
+                     															:}
+                     |  OPEN_BRACE ORD_CHAR:oc CLOSE_BRACE                      {: 
+                     																System.out.println("---Debug cas[17]---"); 
+                     															:}  	    
+                     |  OPEN_BRACE ORD_CHAR:oc COMMA CLOSE_BRACE                {: 
+                    																System.out.println("---Debug cas[18]---"); 
+                    															:}
+                     |  OPEN_BRACE ORD_CHAR:oc1 COMMA ORD_CHAR:oc2 CLOSE_BRACE  {: 
+                     																System.out.println("---Debug cas[19]---"); 
+                     															:}
                      ;                     
 /* --------------------------------------------------------------------------
  * Bracket Expression
  * -------------------------------------------------------------------------- */
-bracket_expression ::=  OPEN_BRACKET matching_list CLOSE_BRACKET                {: System.out.println( "[matching_list]" ); :}
-                     |  OPEN_BRACKET nonmatching_list CLOSE_BRACKET             {: System.out.println( "[nonmatching_list]" ); :}
+bracket_expression ::=  OPEN_BRACKET matching_list CLOSE_BRACKET                {: 
+																					System.out.println("---Debug cas[20]---"); 
+																				:}
+                     |  OPEN_BRACKET nonmatching_list CLOSE_BRACKET             {: 
+                     																System.out.println("---Debug cas[21]---"); 
+                     															:}
                      ;
-matching_list      ::=  bracket_list                                            {: System.out.println( "bracket_list" ); :}
+matching_list      ::=  bracket_list                                            {: 
+																					System.out.println("---Debug cas[22]---"); 
+																				:}
                      ;
-nonmatching_list   ::=  CARET bracket_list                                      {: System.out.println( "^bracket_list" ); :}
+nonmatching_list   ::=  CARET bracket_list                                      {: 
+																					System.out.println("---Debug cas[23]---"); 
+																				:}
                      ;
-bracket_list       ::=  follow_list                                             {: System.out.println( "follow_list" ); :}
+bracket_list       ::=  follow_list                                             {: 	
+																					System.out.println("---Debug cas[24]---"); 
+																				:}
                      /*|  follow_list MINUS*/
                      ;
-follow_list        ::=  expression_term                                         {: System.out.println( "expression_term" ); :} 
-                     |  follow_list expression_term                             {: System.out.println( "follow_list expression_term" ); :} 
+follow_list        ::=  expression_term                                         {: 
+																					System.out.println("---Debug cas[25]---"); 
+																				:} 
+                     |  follow_list expression_term                             {: 
+                     																System.out.println("---Debug cas[26]---"); 
+                     															:} 
                      ;
-expression_term    ::=  single_expression                                       {: System.out.println( "single_expression" ); :}
-                     |  range_expression                                        {: System.out.println( "range_expression" ); :}
+expression_term    ::=  single_expression                                       {: 
+																					System.out.println("---Debug cas[27]---"); 
+																				:}
+                     |  range_expression                                        {: 
+                     																System.out.println("---Debug cas[28]---"); 
+                     															:}
                      ;
-single_expression  ::=  end_range    					                        {: System.out.println( "end_range" ); :}
+single_expression  ::=  end_range    					                        {:
+																					System.out.println("---Debug cas[29]---"); 
+																				:}
                      ;
-range_expression   ::=  start_range end_range                                   {: System.out.println( "start_range end_range" ); :}
-                     |  start_range MINUS                                       {: System.out.println( "start_range-" ); :}
+range_expression   ::=  start_range end_range                                   {: 
+																					System.out.println("---Debug cas[30]---"); 
+																				:}
+                     |  start_range MINUS                                       {: 
+                     																System.out.println("---Debug cas[31]---"); 
+                     															:}
                      ;
-start_range        ::=  end_range MINUS                                         {: System.out.println( "end_range-" ); :}
+start_range        ::=  end_range MINUS                                         {: 
+																					System.out.println("---Debug cas[32]---"); 
+																				:}
                      ;
-end_range          ::=  ORD_CHAR:oc                                             {: System.out.println( oc ); :}
+end_range          ::=  ORD_CHAR:oc                                             {: 
+																					System.out.println("---Debug cas[33]---"); 
+																				:}
                      ;
 /* End The Grammar.__________________________________________________________ */

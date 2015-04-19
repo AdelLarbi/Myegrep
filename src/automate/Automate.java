@@ -17,12 +17,6 @@ public class Automate extends EnsEtat {
         this.ajouteEtatRecursif(etat);
     }
 
-    public Automate(Arbre arbre) {
-        this();
-        this.fromArbre(arbre);
-    }
-
-
     public EnsEtat getInitiaux() {
         return this.initiaux;
     }
@@ -380,40 +374,7 @@ public class Automate extends EnsEtat {
         else return Moore.minimisation(this.determinise());
     }
 
-    private void fromArbre(Arbre arbre) {
-        initiaux.clear();
-        this.clear();
-
-        int idCompteur = 0;
-        HashMap<Feuille, Etat> map = new HashMap<Feuille, Etat>();
-        Map<Feuille, Set<Feuille>> succ = arbre.succ();
-        Stack<Feuille> pile = new Stack<Feuille>();
-
-        Etat etatInit = new Etat(true, arbre.contientMotVide, idCompteur++);
-        Feuille feuilleInit = new Feuille(Arbre.MOT_VIDE);
-        this.ajouteEtatSeul(etatInit);
-        succ.put(feuilleInit, arbre.premiers);
-        map.put(feuilleInit, etatInit);
-        pile.push(feuilleInit);
-
-        while (!pile.isEmpty()) {
-            Feuille feuilleCourante = pile.pop();
-            if (succ.get(feuilleCourante) != null) {
-                for (Feuille feuilleSucc : succ.get(feuilleCourante)) {
-                    Etat etatCourant = map.get(feuilleSucc);
-                    if (etatCourant == null) {
-                        etatCourant = new Etat(false, arbre.derniers.contains(feuilleSucc), idCompteur++);
-                        this.ajouteEtatSeul(etatCourant);
-                        map.put(feuilleSucc, etatCourant);
-                        pile.push(feuilleSucc);
-                    }
-                    map.get(feuilleCourante).ajouteTransition(feuilleSucc.symbole, etatCourant);
-                }
-            }
-        }
-    }
-
-    public boolean estEgale(Automate test) {
+        public boolean estEgale(Automate test) {
         if (this.size() != test.size()) {
             System.out.println("Ne sont pas égaux : tailles differentes");
             return false;
