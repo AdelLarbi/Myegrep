@@ -17,6 +17,12 @@ public class Automate extends EnsEtat {
         this.ajouteEtatRecursif(etat);
     }
 
+    /* public Automate(Arbre arbre) {
+         this();
+         this.fromArbre(arbre);
+     }
+
+     */
     public EnsEtat getInitiaux() {
         return this.initiaux;
     }
@@ -374,7 +380,7 @@ public class Automate extends EnsEtat {
         else return Moore.minimisation(this.determinise());
     }
 
-        public boolean estEgale(Automate test) {
+    public boolean estEgale(Automate test) {
         if (this.size() != test.size()) {
             System.out.println("Ne sont pas égaux : tailles differentes");
             return false;
@@ -422,23 +428,63 @@ public class Automate extends EnsEtat {
         return true;
     }
 
-    /*
-     * TODO
-     * ------------------------------------------------------------------------     
-     */     
-        
-	public static Automate union(Automate automateTmp1,
+
+    public Automate concatMeWith(Automate ere2) {
+        Automate membregauche = this.copy();
+        Automate membredroit = ere2.copy();
+
+        if (!membredroit.estDeterministe())
+            membredroit = membredroit.determinise();
+        if (!membregauche.estDeterministe())
+            membredroit = membregauche.determinise();
+
+        for (Etat etat : membregauche) {
+            if (etat.isTerm()) {
+                etat.setTerm(false);
+                for (Etat initiaux : membredroit.initiaux) {
+                    initiaux.setInit(false);
+                    etat.ajouteTransition(' ', initiaux);
+                }
+            }
+        }
+        return membregauche;
+    }
+
+    public Automate etoile() {
+        Automate copie = this.copy();
+        if (!copie.estDeterministe())
+            copie = copie.determinise();
+        Etat epsilon = new Etat(true, false, 0);
+
+        // on lie epsilon aux init puis les finaux au epsilon
+        for (Etat etat : copie) {
+            if (etat.isInit()) {
+                etat.setInit(false);
+                epsilon.ajouteTransition(' ', etat);
+            } else if (etat.isTerm()) {
+                etat.setTerm(false);
+                etat.ajouteTransition(' ', epsilon);
+            }
+        }
+        return new Automate(epsilon).determinise();
+    }
+
+    public Automate plus() {
+        return this.concatMeWith(this.etoile());
+    }   
+
+    public static Automate union(Automate automateTmp1,
 			Automate automateTmp2) {
 		// TODO automate reconnaissant l'union de deux automates
 		return null;
 	}
-
-	public static Automate concatination(Automate automateTmp1,
+    
+    public static Automate concatination(Automate automateTmp1,
 			Automate automateTmp2) {
 		// TODO automate reconnaissant la concatination de deux automates
 		return null;
 	}
-
+    
 	public static Automate debutRegExp() {
 		// TODO  automate reconnaissant le debut de ligne
 		return null;
@@ -554,7 +600,7 @@ public class Automate extends EnsEtat {
 	/*
      * Fin TODO
      * ------------------------------------------------------------------------     
-     */	
+     */
 }
 
 
