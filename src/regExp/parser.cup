@@ -25,12 +25,6 @@ parser code
 			             
 		return automateResultat;
 	}
-	
-	/*public static void main(String[] args) throws Exception {
-		System.out.println("Debut");
-		new Parser(new Lexer(new FileReader(lienDeFichier))).parse();
-		System.out.println("Fin");		
-    }*/	
 :}
 
 /* Terminals (tokens returned by the scanner)._______________________________ */
@@ -82,33 +76,48 @@ start with  extended_reg_exp;
  * Extended Regular Expression
  * -------------------------------------------------------------------------- */
 extended_reg_exp   ::=  ERE_branch:eb                                           {: 
-																					System.out.println("---Debug cas[1]---");																				    
+																					System.out.println("---Debug cas[1]---");
+																					Parser.automateResultat = (Automate)eb;
+																					RESULT = Parser.automateResultat; 																				    
 																				:}
                      |  extended_reg_exp:ere VERTICAL_BAR ERE_branch:eb         {: 
-                     															    System.out.println("---Debug cas[2]---");                     															                        															                        															   
+                     															    System.out.println("---Debug cas[2]---");
+                     															    Automate automateTmp1 = (Automate)ere;
+                                                        							Automate automateTmp2 = (Automate)eb;
+                                                        							Parser.automateResultat = Automate.union(automateTmp1, automateTmp2);
+                                                        							RESULT = Parser.automateResultat;                     															                        															                        															   
                      															:}
                      ;
 ERE_branch         ::=  ERE_expression:ee                                       {: 
 																				    System.out.println("---Debug cas[3]---"); 
+																				    RESULT = ee;
 																				:}
-                     |  ERE_branch ERE_expression                               {: 
-                     															    System.out.println("---Debug cas[4]---"); 
+                     |  ERE_branch:eb ERE_expression:ee                         {: 
+                     															    System.out.println("---Debug cas[4]---");
+                     															    Automate automateTmp1 = (Automate)eb;
+                                                        							Automate automateTmp2 = (Automate)ee;
+                                                        							RESULT = Automate.concatination(automateTmp1, automateTmp2);
                      															:}
                      ;
 ERE_expression     ::=  one_char_or_coll_elem_ERE:e                             {: 
 																			        System.out.println("---Debug cas[5]---"); 
+																			        RESULT = e;
 																			    :}
                      |  CARET													{: 
                      																System.out.println("---Debug cas[6]---");
+                     																RESULT = Automate.debutRegExp();
                      															:}
                      |  DOLLAR													{:  
                      																System.out.println("---Debug cas[7]---");
+                     																RESULT = Automate.finRegExp();
                      															:}
-                     |  OPEN_PARENTHESE extended_reg_exp CLOSE_PARENTHESE       {: 
-                     																System.out.println("---Debug cas[8]---"); 
+                     |  OPEN_PARENTHESE extended_reg_exp:ere CLOSE_PARENTHESE   {: 
+                     																System.out.println("---Debug cas[8]---");
+                     																RESULT = ere; 
                      															:}
-                     |  ERE_expression ERE_dupl_symbol                          {: 	
-                     																System.out.println("---Debug cas[9]---"); 
+                     |  ERE_expression:er ERE_dupl_symbol:eds                   {: 	
+                     																System.out.println("---Debug cas[9]---");
+                     																RESULT = Automate.dupliquer((Automate)er,(Automate.SymboleDuplication)eds); 
                      															:}
                      ;
 one_char_or_coll_elem_ERE ::=  ORD_CHAR:oc                                      {: 

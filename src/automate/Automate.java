@@ -421,6 +421,120 @@ public class Automate extends EnsEtat {
         }
         return true;
     }
+
+    /*
+     * TODO
+     * ------------------------------------------------------------------------     
+     */     
+        
+	public static Automate union(Automate automateTmp1,
+			Automate automateTmp2) {
+		// TODO automate reconnaissant l'union de deux automates
+		return null;
+	}
+
+	public static Automate concatination(Automate automateTmp1,
+			Automate automateTmp2) {
+		// TODO automate reconnaissant la concatination de deux automates
+		return null;
+	}
+
+	public static Automate debutRegExp() {
+		// TODO  automate reconnaissant le debut de ligne
+		return null;
+	}	
+	
+	public static Automate finRegExp() {
+		// TODO automate reconnaissant la fin de ligne
+		return null;
+	}
+	
+	public static enum SymboleDuplication {
+		Etoile,
+		Plus,    		
+		Interrogation,
+		Min,
+		Exact,
+		Min_Max,
+	}
+		
+	// borne minimal pour la duplication	
+	private static int min;
+	//borne maximal pour la duplication
+	private static int max;
+	
+	public static void setMin(int min) {
+		Automate.min = min;
+	}
+	
+	public static void setMax(int max) {
+		Automate.max = max;
+	}
+	
+	public static Automate dupliquer(Automate automateTmp, 
+			SymboleDuplication symbole) {
+		
+		switch (symbole) {
+			case Etoile: {
+				return etoile(automateTmp);
+			}
+			case Plus: {
+				return plus(automateTmp);
+			}
+			case Interrogation: {
+				return interrogation(automateTmp);
+			}
+			case Exact: {
+				return repeter(automateTmp, min);
+			}
+			case Min: {
+				return repeterMin(automateTmp, min);
+			}
+			case Min_Max: {
+				return repeterMinMax(automateTmp, min, max);
+			}
+			default: {
+				System.out.println("Erreur!");
+				return null;
+			}
+		}		
+	}
+	
+	private static Automate etoile(Automate automateTmp) {
+		// TODO automate reconnaisant la répitition {0, ++}
+		return null;
+	}
+	
+	private static Automate plus(Automate automateTmp) {
+		// TODO automate reconnaisant la répitition {1, ++}
+		return null;
+	}
+	
+	private static Automate interrogation(Automate automateTmp) {
+		// TODO automate reconnaisant un langage {0, 1} 
+		return null;
+	}
+	
+	private static Automate repeter(Automate automateTmp, int nbrDuplication) {
+		// TODO automate resultant de la duplication de l'automate 
+		return null;
+	}
+	
+	private static Automate repeterMin(Automate automateTmp, int nbrDuplication) {
+		// TODO automate resultant de la duplication de l'automate 
+		return null;
+	}
+	
+	private static Automate repeterMinMax(Automate automateTmp, 
+			int minDuplication, int maxDuplication) {
+		// TODO automate resultant de la duplication de l'automate 
+		return null;
+	}
+	
+	/*
+     * Fin TODO
+     * ------------------------------------------------------------------------     
+     */	
 }
 
 
