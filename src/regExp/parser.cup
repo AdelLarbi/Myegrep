@@ -122,34 +122,50 @@ ERE_expression     ::=  one_char_or_coll_elem_ERE:e                             
                      ;
 one_char_or_coll_elem_ERE ::=  ORD_CHAR:oc                                      {: 
 																					System.out.println("---Debug cas[10]---");
+																					RESULT = Automate.creer((String)oc);	
 																				:}
-                     |  QUOTED_CHAR:oc                                          {: 
+                     |  QUOTED_CHAR:qc                                          {: 
                      																System.out.println("---Debug cas[11]---");
+                     																String caractere = (((String)qc).substring(((String)qc).length()-1));
+                     																RESULT = Automate.creer(caractere);
+                     																                     																 	
                      															:}
                      |  DOT                                                     {: 
                      																System.out.println("---Debug cas[12]---");
+                     																RESULT = Automate.point();
                      															:}
-                     |  bracket_expression                                      {: 
-                     																System.out.println("---Debug cas[13]---"); 
+                     |  bracket_expression:be                                   {: 
+                     																System.out.println("---Debug cas[13]---");
+                     																RESULT = be; 
                      															:}
                      ;
 ERE_dupl_symbol    ::=  ASTERISK                                                {: 
 																					System.out.println("---Debug cas[14]---");
+																					RESULT = Automate.SymboleDuplication.Etoile;
 																				:}
                      |  PLUS                                                    {: 
                      																System.out.println("---Debug cas[15]---");
+                     																RESULT = Automate.SymboleDuplication.Plus;
                      															:}
                      |  QUESTION_MARK                                           {: 
                      																System.out.println("---Debug cas[16]---");
+                     																RESULT = Automate.SymboleDuplication.Interrogation;
                      															:}
                      |  OPEN_BRACE ORD_CHAR:oc CLOSE_BRACE                      {: 
-                     																System.out.println("---Debug cas[17]---"); 
+                     																System.out.println("---Debug cas[17]---");
+                     																Automate.setMin(Integer.parseInt((String)oc));
+                                                         							RESULT = Automate.SymboleDuplication.Exact;                                                         							
                      															:}  	    
                      |  OPEN_BRACE ORD_CHAR:oc COMMA CLOSE_BRACE                {: 
-                    																System.out.println("---Debug cas[18]---"); 
+                    																System.out.println("---Debug cas[18]---");
+                    																Automate.setMin(Integer.parseInt((String)oc));
+                                                         							RESULT = Automate.SymboleDuplication.Min;    
                     															:}
                      |  OPEN_BRACE ORD_CHAR:oc1 COMMA ORD_CHAR:oc2 CLOSE_BRACE  {: 
-                     																System.out.println("---Debug cas[19]---"); 
+                     																System.out.println("---Debug cas[19]---");
+                     																Automate.setMin(Integer.parseInt((String)oc1));
+                     																Automate.setMax(Integer.parseInt((String)oc2));
+                                                         							RESULT = Automate.SymboleDuplication.Min_Max;    
                      															:}
                      ;                     
 /* --------------------------------------------------------------------------

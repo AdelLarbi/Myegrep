@@ -530,6 +530,16 @@ public class Automate extends EnsEtat {
 		// TODO automate resultant de la duplication de l'automate 
 		return null;
 	}
+
+	public static Automate creer(String caractere) {
+		// TODO automate avec une transition unique
+		return null;
+	}
+
+	public static Automate point() {
+		// TODO automate accedant a l'etat final
+		return null;
+	}
 	
 	/*
      * Fin TODO
