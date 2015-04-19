@@ -6,7 +6,6 @@ public class Automate extends EnsEtat {
 
     private final EnsEtat initiaux;
 
-
     public Automate() {
         super();
         initiaux = new EnsEtat();
@@ -17,12 +16,6 @@ public class Automate extends EnsEtat {
         this.ajouteEtatRecursif(etat);
     }
 
-    /* public Automate(Arbre arbre) {
-         this();
-         this.fromArbre(arbre);
-     }
-
-     */
     public EnsEtat getInitiaux() {
         return this.initiaux;
     }
@@ -64,7 +57,6 @@ public class Automate extends EnsEtat {
         return true;
     }
 
-
     public Automate union(Automate a) {
         return union(a, true);
     }
@@ -72,7 +64,6 @@ public class Automate extends EnsEtat {
     public Automate intersection(Automate a) {
         return union(a, false);
     }
-
 
     private Automate union(Automate a, boolean estUnion) {
         if (a == null) return null;
@@ -174,47 +165,6 @@ public class Automate extends EnsEtat {
     public String affiche() {
         return super.affiche();
     }
-
-    /*
-    Automate minimise(Automate automateNonMinimal) {
-		return determinise(inverse(determinise(inverse(automateNonMinimal))));
-	}
-	  */
-    
-    /*
-    Automate inverse(Automate automateTmp) {
-
-        Etat etatTmp = null;
-        initiaux.clear();
-
-        for (Etat etat : this) {
-            // inverser les etats
-            if (etat.isInit()) {
-                etat.setInit(false);
-                etat.setTerm(true);
-            } else { // est terminale
-                etat.setInit(true);
-                etat.setTerm(false);
-                initiaux.add(etat);
-            }
-
-            // inverser les transitions
-            HashMap<Character, EnsEtat> tmpTransitions = etat.transitions;
-            for (Character succ : tmpTransitions.keySet()) {
-                if (etat.isInit()) {
-                    etatTmp = new Etat(true, false);
-                } else {
-                    etatTmp = new Etat(false, true);
-                }
-                etatTmp.ajouteTransition(succ, etat);
-                automateTmp.add(etatTmp);
-            }
-        }
-
-        // l'automate transposé
-        return automateTmp;
-    }*/
-
 
     Automate remove_epsilon_transition(Automate a) {
         Automate res = a;
@@ -428,7 +378,6 @@ public class Automate extends EnsEtat {
         return true;
     }
 
-
     public Automate concatMeWith(Automate ere2) {
         Automate membregauche = this.copy();
         Automate membredroit = ere2.copy();
@@ -473,16 +422,18 @@ public class Automate extends EnsEtat {
         return this.concatMeWith(this.etoile());
     }   
 
+    // automate reconnaissant l'union de deux automates
     public static Automate union(Automate automateTmp1,
-			Automate automateTmp2) {
-		// TODO automate reconnaissant l'union de deux automates
-		return null;
+			Automate automateTmp2) {		
+    	
+		return automateTmp1.union(automateTmp2);
 	}
     
+    // automate reconnaissant la concatination de deux automates
     public static Automate concatination(Automate automateTmp1,
 			Automate automateTmp2) {
-		// TODO automate reconnaissant la concatination de deux automates
-		return null;
+		    	
+		return automateTmp1.concatMeWith(automateTmp2);
 	}
     
 	public static Automate debutRegExp() {
@@ -546,14 +497,31 @@ public class Automate extends EnsEtat {
 		}		
 	}
 	
+	// automate reconnaisant la répitition {0, ++}
 	private static Automate etoile(Automate automateTmp) {
-		// TODO automate reconnaisant la répitition {0, ++}
-		return null;
+	
+		Automate copie = automateTmp.copy();
+        if (!copie.estDeterministe())
+            copie = copie.determinise();
+        Etat epsilon = new Etat(true, false, 0);
+
+        // on lie epsilon aux init puis les finaux au epsilon
+        for (Etat etat : copie) {
+            if (etat.isInit()) {
+                etat.setInit(false);
+                epsilon.ajouteTransition(' ', etat);
+            } else if (etat.isTerm()) {
+                etat.setTerm(false);
+                etat.ajouteTransition(' ', epsilon);
+            }
+        }
+        return new Automate(epsilon).determinise();		
 	}
 	
+	// automate reconnaisant la répitition {1, ++}
 	private static Automate plus(Automate automateTmp) {
-		// TODO automate reconnaisant la répitition {1, ++}
-		return null;
+		
+		return automateTmp.concatMeWith(automateTmp.etoile());		
 	}
 	
 	private static Automate interrogation(Automate automateTmp) {
@@ -602,29 +570,3 @@ public class Automate extends EnsEtat {
      * ------------------------------------------------------------------------     
      */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
