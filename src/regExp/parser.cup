@@ -9,7 +9,7 @@ import java.io.FileReader;
 
 parser code 
 {:
-	public static Automate automateTmp = null;
+	public static Automate automateResultat = null;
 	static final String lienDeFichier = "text";
 	
 	public Parser getParser(String pPath) throws Exception {
@@ -19,11 +19,11 @@ parser code
 	}
 	
 	public Automate getAutomate() throws Exception {
-		if (automateTmp == null) {
+		if (automateResultat == null) {
 			this.parse();
 		}				
 			             
-		return automateTmp;
+		return automateResultat;
 	}
 	
 	/*public static void main(String[] args) throws Exception {
@@ -82,27 +82,14 @@ start with  extended_reg_exp;
  * Extended Regular Expression
  * -------------------------------------------------------------------------- */
 extended_reg_exp   ::=  ERE_branch:eb                                           {: 
-																					System.out.println("---Debug cas[1]---");
-																				    RESULT = (Automate)eb;															    
+																					System.out.println("---Debug cas[1]---");																				    
 																				:}
                      |  extended_reg_exp:ere VERTICAL_BAR ERE_branch:eb         {: 
-                     															    System.out.println("---Debug cas[2]---");                     															   
-                     															   
-                     															    Automate automateTmp1 = (Automate)ere; 
-                     															    //System.out.println("automateTmp1\n" + automateTmp1);
-                     															   
-                     															    Automate automateTmp2 = (Automate)eb;
-                     															    //System.out.println("automateTmp2\n" + automateTmp2);
-                     															   
-                     															    automateTmp1.union(automateTmp2);                     															                        															
-                     															    RESULT = automateTmp1;
-                     															    Parser.automateTmp = (Automate)automateTmp1;
+                     															    System.out.println("---Debug cas[2]---");                     															                        															                        															   
                      															:}
                      ;
 ERE_branch         ::=  ERE_expression:ee                                       {: 
 																				    System.out.println("---Debug cas[3]---"); 
-																				    RESULT = (Automate)ee; 
-																				    System.out.println( "RES1:---- " + RESULT); 
 																				:}
                      |  ERE_branch ERE_expression                               {: 
                      															    System.out.println("---Debug cas[4]---"); 
@@ -110,8 +97,6 @@ ERE_branch         ::=  ERE_expression:ee                                       
                      ;
 ERE_expression     ::=  one_char_or_coll_elem_ERE:e                             {: 
 																			        System.out.println("---Debug cas[5]---"); 
-																			        RESULT = (Automate)e; 
-																			        System.out.println( "RES2:---- " + RESULT); 
 																			    :}
                      |  CARET													{: 
                      																System.out.println("---Debug cas[6]---");
@@ -127,16 +112,7 @@ ERE_expression     ::=  one_char_or_coll_elem_ERE:e                             
                      															:}
                      ;
 one_char_or_coll_elem_ERE ::=  ORD_CHAR:oc                                      {: 
-																					System.out.println("---Debug cas[10]---"); 
-																					Etat e0 = new Etat(true, false, 0);																			        
-																			        Etat e1 = new Etat(false, true, 1);																			        
-																		        	char[] monChar = ((String) oc).toCharArray();																		        	        																			       
-																			        e0.ajouteTransition(monChar[0], e1);																			        																		
-																			        Automate auto = new Automate();        
-																			        auto.ajouteEtatSeul(e0);
-																			        auto.ajouteEtatSeul(e1);
-																			        RESULT = auto;
-																			        //Parser.automateTmp = (Automate)RESULT;																			        
+																					System.out.println("---Debug cas[10]---");
 																				:}
                      |  QUOTED_CHAR:oc                                          {: 
                      																System.out.println("---Debug cas[11]---");
